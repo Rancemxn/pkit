@@ -1,5 +1,6 @@
 # Reference: https://github.com/qaqFei/phispler/blob/main/src/tool-getPgrUrl.py
 
+
 import json
 import random
 
@@ -72,13 +73,4 @@ def get_download_info(appid: int = 165287, apkid: typing.Optional[int] = None):
         logger.error("Request TapTap API apk detail Error")
         raise
     except json.decoder.JSONDecodeError:
-        raise
-
-
-if __name__ == "__main__":
-    try:
-        result = get_download_info()
-        logger.info(f"Version: {result['data']['apk']['version_name']}")
-        logger.info(f"Download link: {result['data']['apk']['download']}")
-    except Exception:
         raise
