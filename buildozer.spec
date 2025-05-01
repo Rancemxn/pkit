@@ -48,6 +48,6 @@ p4a.bootstrap = sdl3
 p4a.branch = develop
 
 [buildozer]
-log_level = 1
+log_level = 2
 
 warn_on_root = 0
