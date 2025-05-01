@@ -5,7 +5,6 @@ import subprocess
 import os  # 导入 sys 用于打印到 stderr
 from android import mActivity  # type: ignore # 忽略 android 库的类型检查错误
 from os.path import join
-from loguru import logger  # 假设你使用了 Loguru 进行日志记录
 
 # 通常在项目入口文件会导入其他模块或启动主应用逻辑
 # from phicain.main import main_app # 示例：如果你的主应用逻辑在一个 Typer 应用中
@@ -22,16 +21,14 @@ def get_ffmpeg_android_path():
         ffmpeg_bin_path = join(native_lib_dir, "libffmpegbin.so")
 
         if not os.path.exists(ffmpeg_bin_path):
-            logger.error(
-                f"FFmpeg executable not found in native lib dir: {ffmpeg_bin_path}"
-            )
+            print(f"FFmpeg executable not found in native lib dir: {ffmpeg_bin_path}")
             return None
 
-        logger.info(f"Detected FFmpeg path: {ffmpeg_bin_path}")
+        print(f"Detected FFmpeg path: {ffmpeg_bin_path}")
         return ffmpeg_bin_path
 
     except Exception as e:
-        logger.error(f"Error getting FFmpeg path on Android: {e}")
+        print(f"Error getting FFmpeg path on Android: {e}")
         return None
 
 
@@ -42,10 +39,10 @@ def test_ffmpeg_version():
     ffmpeg_path = get_ffmpeg_android_path()
 
     if not ffmpeg_path:
-        logger.error("FFmpeg path not available. Cannot run version test.")
+        print("FFmpeg path not available. Cannot run version test.")
         return
 
-    logger.info(f"Running command: [{ffmpeg_path}, -version]")
+    print(f"Running command: [{ffmpeg_path}, -version]")
 
     try:
         # 运行 FFmpeg 命令并捕获输出
@@ -60,27 +57,27 @@ def test_ffmpeg_version():
 
         # 检查返回码
         if result.returncode != 0:
-            logger.error(
+            print(
                 f"Command '{' '.join(result.args)}' returned non-zero exit status {result.returncode}."
             )
-            logger.error("--- FFmpeg stdout ---")
-            logger.error(result.stdout)
-            logger.error("--- FFmpeg stderr ---")
-            logger.error(result.stderr)  # <--- 打印标准错误
-            logger.error("---------------------")
+            print("--- FFmpeg stdout ---")
+            print(result.stdout)
+            print("--- FFmpeg stderr ---")
+            print(result.stderr)  # <--- 打印标准错误
+            print("---------------------")
         else:
             # 如果成功，打印标准输出
-            logger.info(f"Command '{' '.join(result.args)}' executed successfully.")
-            logger.info("--- FFmpeg stdout ---")
-            logger.info(result.stdout)
-            logger.info("---------------------")
+            print(f"Command '{' '.join(result.args)}' executed successfully.")
+            print("--- FFmpeg stdout ---")
+            print(result.stdout)
+            print("---------------------")
 
     except FileNotFoundError:
-        logger.error(
+        print(
             f"Error: FFmpeg executable not found at {ffmpeg_path}. Check if it was packaged correctly."
         )
     except Exception as e:
-        logger.error(f"An unexpected error occurred during FFmpeg version test: {e}")
+        print(f"An unexpected error occurred during FFmpeg version test: {e}")
 
 
 # ==== 程序入口 ====
@@ -100,7 +97,7 @@ if __name__ == "__main__":
     #     pass
 
     # For a simple script that runs and exits:
-    logger.info("Script finished.")
+    print("Script finished.")
     # Exit the process if necessary
     # import os
     # os._exit(0) # Use os._exit() for a clean exit in some Android contexts
