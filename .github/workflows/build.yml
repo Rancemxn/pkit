@@ -65,6 +65,12 @@ jobs:
       run: |
         sdkmanager "platforms;android-29"
         sdkmanager "build-tools;34.0.0"
+    - name: Select NDK SDK for buildozer
+      run: |
+        echo "ANDROID_SDK_ROOT: $ANDROID_SDK_ROOT"
+        echo "ANDROID_NDK_HOME: $ANDROID_NDK_HOME"
+        sed -i "s|^android.sdk_path =.*$|android.sdk_path = $ANDROID_SDK_ROOT|" buildozer.spec
+        sed -i "s|^android.ndk_path =.*$|android.ndk_path = $ANDROID_NDK_HOME|" buildozer.spec
     - name: Build Application
       run: |
         pip install wheel setuptools Cython buildozer
