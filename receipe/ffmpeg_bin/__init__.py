@@ -41,8 +41,6 @@ class FFMpegRecipe(Recipe):
             # enable hardware acceleration codecs
             flags = ["--enable-jni", "--enable-mediacodec"]
 
-            flags += ["--enable-libpostproc"]
-
             # Enable GPL
             flags += ["--enable-gpl"]
 
