@@ -23,11 +23,9 @@ fullscreen = 1
 
 android.permissions = android.permission.INTERNET, android.permission.WRITE_EXTERNAL_STORAGE
 
-android.api = 31
+android.api = 33
 
 android.minapi = 21
-
-android.sdk = 35
 
 android.ndk = 27c
 
