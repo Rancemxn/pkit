@@ -128,7 +128,7 @@ class FFMpegRecipe(Recipe):
 
             configure = sh.Command("./configure")
             shprint(configure, *flags, _env=env)
-            shprint(sh.make, "-j", cpu_count(), _env=env)
+            shprint(sh.make, "-j", str(cpu_count()), _env=env)
             shprint(sh.make, "install", _env=env)
             shprint(sh.cp, "ffmpeg", "./lib/libffmpegbin.so")
             self.built_libraries["libmediandk.so"] = arch.ndk_lib_dir
