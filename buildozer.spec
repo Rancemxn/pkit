@@ -33,9 +33,9 @@ android.ndk_api = 29
 
 android.accept_sdk_license = True
 
-android.apptheme = "@android:style/Theme.NoTitleBar"
+#android.apptheme = "@android:style/Theme.NoTitleBar"
 
-android.logcat_filters = pkit:S python:D
+android.logcat_filters = *:S python:D
 
 android.archs = arm64-v8a
 
