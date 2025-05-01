@@ -40,9 +40,7 @@ jobs:
             wget \
             zip \
             zlib1g-dev \
-            libtinfo5 \
-            libncurses6-dev \
-            libncursesw6-dev
+            libncurses-dev
     - name: Setup Python
       uses: actions/setup-python@v5
       with:
