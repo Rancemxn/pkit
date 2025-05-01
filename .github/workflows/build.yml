@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  arm_v8a:
+  arm64_v8a:
     runs-on: ubuntu-latest
 
     steps:
