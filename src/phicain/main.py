@@ -84,6 +84,19 @@ def test_ffmpeg_version():
 # 在 Android 应用启动时，通常会执行这里的代码
 if __name__ == "__main__":
     # 在这里调用你的测试函数
+    from android import mActivity  # type: ignore
+
+    app_info = mActivity.getApplicationInfo()
+    native_lib_dir = (
+        app_info.nativeLibraryDir
+    )  # 这个就是 /data/app/.../lib/arm64 这样的路径
+
+    # 获取当前的 LD_LIBRARY_PATH，如果不存在则为空字符串
+    current_ld_library_path = os.environ.get("LD_LIBRARY_PATH", "")
+    # 将原生库目录添加到 LD_LIBRARY_PATH 的前面
+    new_ld_library_path = native_lib_dir + os.pathsep + current_ld_library_path
+    # 更新环境变量
+    os.environ["LD_LIBRARY_PATH"] = new_ld_library_path
     test_ffmpeg_version()
 
     # 如果你的应用是 Kivy/或其他有主循环的框架，可能需要启动主循环

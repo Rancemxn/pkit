@@ -19,6 +19,7 @@ class FFMpegRecipe(Recipe):
         "libavdevice.so",
         "libavformat.so",
         "libswresample.so",
+        "libpostproc.so",
         "libffmpegbin.so",
     ]
     built_libraries = dict.fromkeys(_libs, "./lib")
@@ -34,13 +35,13 @@ class FFMpegRecipe(Recipe):
     def build_arch(self, arch):
         with current_directory(self.get_build_dir(arch.arch)):
             env = arch.get_env()
-
-            flags = ["--disable-everything"]
             cflags = []
             ldflags = []
 
             # enable hardware acceleration codecs
             flags = ["--enable-jni", "--enable-mediacodec"]
+
+            flags += ["--enable-libpostproc"]
 
             # Enable GPL
             flags += ["--enable-gpl"]
