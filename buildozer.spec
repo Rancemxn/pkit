@@ -45,6 +45,8 @@ p4a.local_recipes = receipe
 
 p4a.bootstrap = sdl3
 
+p4a.fork = Rancemxn
+
 p4a.branch = develop
 
 [buildozer]
