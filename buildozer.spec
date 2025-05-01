@@ -15,7 +15,7 @@ version.regex = __version__ = ['"](.*)['"]
 
 version.filename = %(source.dir)s/main.py
 
-requirements = python3,hostpython3,sdl3
+requirements = python3,hostpython3,sdl3,android,ffmpeg_bin,pyjnius
 
 orientation = landscape, landscape-reverse
 
@@ -41,7 +41,7 @@ android.archs = arm64-v8a
 
 android.allow_backup = True
 
-#p4a.local_recipes =
+p4a.local_recipes = receipe
 
 p4a.bootstrap = sdl3
 
