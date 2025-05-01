@@ -5,7 +5,7 @@ package.name = pkit
 
 package.domain = org.Rancemxn
 
-source.dir = src
+source.dir = src/phicain
 
 source.include_exts = py
 
