@@ -8,8 +8,12 @@ def fetch(platform: str = "taptap", name: str = ".", threads: int = 32) -> None 
     url = ""
     match platform:
         case "taptap":
-            url = taptap.get_download_info()["data"]["apk"]["download"]
+            data = taptap.get_download_info()["data"]["apk"]
+            version_name = data["version_name"]
+            url = data["download"]
             logger.info("taptap url Detected.")
+            if name == ".":  # fix filename instead of hashname like
+                name = f"./Phigros.{version_name}.apk"
         case _:
             logger.warning("Unknown Platform Detected. Ignored")
             return
