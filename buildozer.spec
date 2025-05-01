@@ -21,7 +21,7 @@ orientation = landscape, landscape-reverse
 
 fullscreen = 1
 
-android.permissions = android.permission.INTERNET, android.permission.WRITE_EXTERNAL_STORAGE
+android.permissions = INTERNET, WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE
 
 android.api = 33
 
