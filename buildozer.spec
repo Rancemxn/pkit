@@ -29,7 +29,7 @@ android.minapi = 21
 
 android.ndk = 27c
 
-android.ndk_api = 29s
+android.ndk_api = 29
 
 android.accept_sdk_license = True
 
