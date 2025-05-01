@@ -27,11 +27,13 @@ android.api = 31
 
 android.minapi = 21
 
-android.ndk_path = 
+android.sdk = 35
 
-android.sdk_path =
+android.ndk = 27c
 
-android.skip_update = False
+android.ndk_api = 29
+
+android.skip_update = True
 
 android.accept_sdk_license = True
 
