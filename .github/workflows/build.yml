@@ -1,6 +1,6 @@
 name: Android Build
 
-on: 
+on:
   push:
   pull_request:
   workflow_dispatch:
@@ -29,7 +29,6 @@ jobs:
             libtool \
             libssl-dev \
             make \
-            openjdk-17-jdk \
             patch \
             pkg-config \
             python3 \
@@ -50,7 +49,7 @@ jobs:
       uses: actions/setup-java@v4
       with:
         distribution: 'zulu'
-        java-version: '11'
+        java-version: '17'
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
       with:
