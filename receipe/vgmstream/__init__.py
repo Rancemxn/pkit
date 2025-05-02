@@ -69,16 +69,11 @@ class VgmstreamRecipe(Recipe):
                 "-DUSE_ATRAC9=OFF",
                 "-DUSE_SPEEX=OFF",
                 "-DUSE_CELT=OFF",
-                f"-DFFMPEG_ARGS={
-                    '--target-os=android'
-                    + '--enable-cross-compile'
-                    + '--cross-prefix={}-'.format(arch.target)
-                    + '--arch={}'.format(arch_flag)
-                    + '--strip={}'.format(self.ctx.ndk.llvm_strip)
-                    + '--sysroot={}'.format(self.ctx.ndk.sysroot)
-                    + '--enable-neon'
-                    + '--prefix={}'.format(realpath('.'))
-                }",
+                f"-DFFMPEG_CROSS_PREFIX={arch.target}",
+                f"-DFFMPEG_ARCH={arch_flag}",
+                f"-DFFMPEG_STRIP={self.ctx.ndk.llvm_strip}",
+                f"-DFFMPEG_SYSROOT={self.ctx.ndk.sysroot}",
+                f"-DFFMPEG_PREFIX={realpath('.')}",
             ]
 
             shprint(sh.cmake, *cmake_args, _env=env)

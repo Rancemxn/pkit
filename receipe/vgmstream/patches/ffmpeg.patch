@@ -1,5 +1,3 @@
---- vgmstream/cmake/dependencies/ffmpeg.cmake	2025-05-02 19:49:06.518143000 +0800
-+++ vgmstream/cmake/dependencies/ffmpeg.cmake	2025-05-02 19:57:41.623002300 +0800
 @@ -61,7 +61,7 @@
  
  		FetchDependency(FFMPEG
@@ -9,11 +7,18 @@
  			GIT_TAG n5.1.2
  		)
  
-@@ -113,6 +113,7 @@
+@@ -113,6 +113,14 @@
  				--disable-nvenc
  				--disable-nvdec
  				--disable-vdpau
-+				${FFMPEG_ARGS}
++				--target-os=android
++				--enable-cross-compile
++				--cross-prefix=${FFMPEG_CROSS_PREFIX}-
++				--arch=${FFMPEG_ARCH}
++				--strip=${FFMPEG_STRIP}
++				--sysroot=${FFMPEG_SYSROOT}
++				--enable-neon
++				--prefix=${FFMPEG_PREFIX}
  				--disable-vulkan
  				--enable-parser=${FFMPEG_CONF_PARSER}
  				--enable-demuxer=${FFMPEG_CONF_DEMUXER}
