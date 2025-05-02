@@ -67,15 +67,15 @@ class VgmstreamRecipe(Recipe):
                 "-DBUILD_WINAMP=OFF",
                 "-DBUILD_XMPLAY=OFF",
                 "-DBUILD_V123=OFF",
-                "-BUILD_STATIC=ON",
+                "-DBUILD_STATIC=ON",
                 "-DBUILD_AUDACIOUS=OFF",
-                "-USE_MPEG=OFF",
-                "-USE_VORBIS=ON",
-                "-USE_FFMPEG=ON",
-                "-USE_G7221=OFF",
-                "-USE_G719=OFF",
-                "-USE_ATRAC9=OFF",
-                "-USE_SPEEX=OFF",
+                "-DUSE_MPEG=OFF",
+                "-DUSE_VORBIS=ON",
+                "-DUSE_FFMPEG=ON",
+                "-DUSE_G7221=OFF",
+                "-DUSE_G719=OFF",
+                "-DUSE_ATRAC9=OFF",
+                "-DUSE_SPEEX=OFF",
             ]
 
             # 运行 CMake 配置
