@@ -132,6 +132,7 @@ class FFMpegRecipe(Recipe):
             shprint(configure, *flags, _env=env)
             shprint(sh.make, "-j", str(cpu_count()), _env=env)
             shprint(sh.make, "install", _env=env)
+            shprint(sh.cp, "ffmpeg", "./lib/libffmpegbin.so")
 
 
 recipe = FFMpegRecipe()
