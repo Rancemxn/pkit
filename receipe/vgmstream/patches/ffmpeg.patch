@@ -1,14 +1,5 @@
 --- vgmstream/cmake/dependencies/ffmpeg.cmake	2025-05-02 19:49:06.518143000 +0800
 +++ vgmstream/cmake/dependencies/ffmpeg.cmake	2025-05-02 19:57:41.623002300 +0800
-@@ -61,7 +61,7 @@
- 
- 		FetchDependency(FFMPEG
- 			DIR ffmpeg
--			GIT_REPOSITORY https://github.com/FFmpeg/FFmpeg.git
-+			GIT_REPOSITORY https://git.ffmpeg.org/ffmpeg.git
- 			GIT_TAG n5.1.2
- 		)
- 
 @@ -113,6 +113,14 @@
  				--disable-nvenc
  				--disable-nvdec
