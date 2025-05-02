@@ -55,7 +55,7 @@ class VgmstreamRecipe(Recipe):
                 "-DBUILD_WINAMP=OFF",
                 "-DBUILD_XMPLAY=OFF",
                 "-DBUILD_V123=OFF",
-                "-DBUILD_STATIC=ON",
+                "-DBUILD_STATIC=OFF",
                 "-DBUILD_AUDACIOUS=OFF",
                 "-DUSE_MPEG=OFF",
                 "-DUSE_VORBIS=ON",
@@ -65,6 +65,9 @@ class VgmstreamRecipe(Recipe):
                 "-DUSE_ATRAC9=OFF",
                 "-DUSE_SPEEX=OFF",
                 "-DUSE_CELT=OFF",
+                f"-DFFMPEG_PATH={
+                    Recipe.get_recipe('ffmpeg_bin', self.ctx).get_build_dir(arch.arch)
+                }",
             ]
 
             shprint(sh.cmake, *cmake_args, _env=env)
