@@ -44,6 +44,9 @@ class FFMpegRecipe(Recipe):
             # Enable GPL
             flags += ["--enable-gpl"]
 
+            # Enable GPL3
+            flags += ["--enable-version3"]
+
             # libx264
             flags += ["--enable-libx264"]
             build_dir = Recipe.get_recipe("libx264", self.ctx).get_build_dir(arch.arch)
