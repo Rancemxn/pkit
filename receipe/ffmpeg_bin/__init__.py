@@ -19,7 +19,6 @@ class FFMpegRecipe(Recipe):
         "libavdevice.so",
         "libavformat.so",
         "libswresample.so",
-        "libshine.so",
         "libpostproc.so",
         "libffmpegbin.so",
     ]
