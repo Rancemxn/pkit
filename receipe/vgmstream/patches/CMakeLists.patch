@@ -1,0 +1,52 @@
+--- vgmstream/src/CMakeLists.txt	2025-05-02 21:11:27.956098600 +0800
++++ vgmstream/src/CMakeLists.txt	2025-05-02 21:12:59.120095400 +0800
+@@ -62,10 +62,6 @@
+ add_library(libvgmstream STATIC ${libvgmstream_sources})
+ set_target_properties(libvgmstream PROPERTIES PREFIX "")
+ 
+-if(USE_FFMPEG AND FFMPEG_COMPILE)
+-	add_dependencies(libvgmstream avcodec)
+-endif()
+-
+ setup_target(libvgmstream)
+ 
+ target_include_directories(libvgmstream PRIVATE ${libvgmstream_includes})
+@@ -77,14 +73,31 @@
+ 		PREFIX ""
+ 		OUTPUT_NAME "libvgmstream"
+ 	)
++	target_include_directories(libvgmstream_shared PRIVATE
++		${libvgmstream_includes}
++		${FFmpeg_INCLUDE_DIRS}
++		${Vorbis_INCLUDE_DIRS}
++		${OGG_INCLUDE_DIR}
++	)
++	link_directories(
++			${FFMPEG_PATH}
++			${OGG_PATH}
++			${VORBIS_PATH}
++	)
+ 	
+-	if(USE_FFMPEG AND FFMPEG_COMPILE)
+-		add_dependencies(libvgmstream_shared avcodec)
+-	endif()
+-	
+-	setup_target(libvgmstream_shared TRUE)
+-	
+-	target_include_directories(libvgmstream_shared PRIVATE ${libvgmstream_includes})
++	target_link_libraries(libvgmstream_shared PUBLIC # 将链接类型设为 PUBLIC
++        avformat
++        avcodec
++        swresample
++        avutil
++        swscale
++        avdevice
++        postproc
++        ffmpegbin
++        vorbisfile
++        vorbis
++        -lc++_shared
++	)
+ 	
+ 	if(CMAKE_CXX_COMPILER_ID MATCHES Clang OR CMAKE_CXX_COMPILER_ID MATCHES GNU)
+ 		set_target_properties(libvgmstream_shared PROPERTIES LINK_FLAGS_RELEASE -s)
