@@ -45,6 +45,7 @@ class VgmstreamRecipe(Recipe):
                 build_dir,
                 "-B",
                 ".",
+                "-DANDROID_STL=" + self.stl_lib_name,
                 "-DCMAKE_SYSTEM_NAME=Android",
                 "-DCMAKE_POSITION_INDEPENDENT_CODE=1",
                 "-DCMAKE_TOOLCHAIN_FILE={}".format(cmake_toolchain_file),
