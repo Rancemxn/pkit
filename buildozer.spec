@@ -13,7 +13,7 @@ source.exclude_dirs = __pycache__
 
 version.regex = __version__ = ['"](.*)['"]
 
-version.filename = %(source.dir)s/main.py
+version.filename = %(source.dir)s/__init__.py
 
 requirements = python3,hostpython3,sdl3,android,ffmpeg_bin,pyjnius
 

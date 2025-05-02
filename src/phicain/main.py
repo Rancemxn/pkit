@@ -1,9 +1,6 @@
-# __version__ = "0.2.0" # 你的版本号定义
-# 通常版本号定义在项目的 __init__.py 文件中更规范，Buildozer 也可以配置从那里读取
-
 import subprocess
-import os  # 导入 sys 用于打印到 stderr
-from android import mActivity  # type: ignore # 忽略 android 库的类型检查错误
+import os
+from android import mActivity  # type: ignore
 from os.path import join
 
 # 通常在项目入口文件会导入其他模块或启动主应用逻辑
