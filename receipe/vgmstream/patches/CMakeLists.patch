@@ -1,5 +1,6 @@
 --- vgmstream/src/CMakeLists.txt	2025-05-02 21:11:27.956098600 +0800
 +++ vgmstream/src/CMakeLists.txt	2025-05-02 21:12:59.120095400 +0800
++++ 123.txt	2025-05-02 22:43:53.152385700 +0800
 @@ -62,10 +62,6 @@
  add_library(libvgmstream STATIC ${libvgmstream_sources})
  set_target_properties(libvgmstream PROPERTIES PREFIX "")
@@ -11,14 +12,21 @@
  setup_target(libvgmstream)
  
  target_include_directories(libvgmstream PRIVATE ${libvgmstream_includes})
-@@ -77,14 +73,32 @@
+@@ -77,14 +73,39 @@
  		PREFIX ""
  		OUTPUT_NAME "libvgmstream"
  	)
 +	target_include_directories(libvgmstream_shared PRIVATE
 +		${libvgmstream_includes}
 +		${FFmpeg_INCLUDE_DIRS}
-+		${FFmpeg_INCLUDE_DIRS}/ffmpeg
++		${FFmpeg_INCLUDE_DIRS}/libavcodec
++		${FFmpeg_INCLUDE_DIRS}/libavdevice
++		${FFmpeg_INCLUDE_DIRS}/libavfilter
++		${FFmpeg_INCLUDE_DIRS}/libavformat
++		${FFmpeg_INCLUDE_DIRS}/libavutil
++		${FFmpeg_INCLUDE_DIRS}/libpostproc
++		${FFmpeg_INCLUDE_DIRS}/libswresample
++		${FFmpeg_INCLUDE_DIRS}/libswscale
 +		${Vorbis_INCLUDE_DIRS}
 +		${OGG_INCLUDE_DIR}
 +	)
