@@ -1,5 +1,4 @@
-from pythonforandroid.recipe import Recipe  # type: ignore
-from pythonforandroid.util import current_directory, shprint  # type: ignore
+from pythonforandroid.toolchain import Recipe, current_directory, shprint  # type: ignore
 import sh  # type: ignore
 import os
 
