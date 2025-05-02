@@ -31,6 +31,15 @@ class VgmstreamRecipe(Recipe):
                 ndk_dir, "build", "cmake", "android.toolchain.cmake"
             )
 
+            cmake_prefix_paths = [
+                Recipe.get_recipe("ffmpeg_bin", self.ctx).get_build_dir(arch.arch),
+                Recipe.get_recipe("libogg", self.ctx).get_build_dir(arch.arch),
+                Recipe.get_recipe("libvorbis", self.ctx).get_build_dir(arch.arch),
+                env["SYSROOT"],
+            ]
+            cmake_prefix_paths = [p for p in cmake_prefix_paths if os.path.exists(p)]
+
+            cmake_prefix_path_str = ";".join(cmake_prefix_paths)
             cmake_args = [
                 "-S",
                 build_dir,
@@ -65,9 +74,7 @@ class VgmstreamRecipe(Recipe):
                 "-DUSE_ATRAC9=OFF",
                 "-DUSE_SPEEX=OFF",
                 "-DUSE_CELT=OFF",
-                f"-DFFMPEG_PATH={
-                    Recipe.get_recipe('ffmpeg_bin', self.ctx).get_build_dir(arch.arch)
-                }",
+                f"-DCMAKE_PREFIX_PATH={cmake_prefix_path_str}",
             ]
 
             shprint(sh.cmake, *cmake_args, _env=env)
