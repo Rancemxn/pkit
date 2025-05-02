@@ -1,6 +1,6 @@
 --- vgmstream/cmake/dependencies/ffmpeg.cmake	2025-05-02 19:49:06.518143000 +0800
 +++ vgmstream/cmake/dependencies/ffmpeg.cmake	2025-05-02 19:57:41.623002300 +0800
-@@ -1,178 +1,12 @@
+@@ -1,177 +1,12 @@
  if(USE_FFMPEG)
 -	if(NOT FFMPEG_PATH AND NOT BUILD_STATIC)
 -		# FFmpeg detection
@@ -65,7 +65,7 @@
 -		FetchDependency(FFMPEG
 -			DIR ffmpeg
 -			GIT_REPOSITORY https://git.ffmpeg.org/ffmpeg.git
--			GIT_TAG n7.1.1
+-			GIT_TAG n5.1.2
 -		)
 -
 -		if(FFMPEG_PATH)
@@ -117,7 +117,6 @@
 -				--disable-nvdec
 -				--disable-vdpau
 -				--disable-vulkan
--				--disable-libdrm
 -				--enable-parser=${FFMPEG_CONF_PARSER}
 -				--enable-demuxer=${FFMPEG_CONF_DEMUXER}
 -				--enable-decoder=${FFMPEG_CONF_DECODER}
