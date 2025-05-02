@@ -14,6 +14,8 @@ class VgmstreamRecipe(Recipe):
         "libogg",
     ]
 
+    patches = ["patches/ffmpeg.patch"]
+
     need_stl_shared = True
 
     built_libraries = {"libvgmstream.so": "."}
@@ -30,15 +32,6 @@ class VgmstreamRecipe(Recipe):
             cmake_toolchain_file = os.path.join(
                 ndk_dir, "build", "cmake", "android.toolchain.cmake"
             )
-
-            cmake_prefix_paths = [
-                Recipe.get_recipe("ffmpeg_bin", self.ctx).get_build_dir(arch.arch),
-                Recipe.get_recipe("libogg", self.ctx).get_build_dir(arch.arch),
-                Recipe.get_recipe("libvorbis", self.ctx).get_build_dir(arch.arch),
-            ]
-            cmake_prefix_paths = [p for p in cmake_prefix_paths if os.path.exists(p)]
-
-            cmake_prefix_path_str = ";".join(cmake_prefix_paths)
             cmake_args = [
                 "-S",
                 build_dir,
@@ -48,12 +41,7 @@ class VgmstreamRecipe(Recipe):
                 "-DCMAKE_SYSTEM_NAME=Android",
                 "-DCMAKE_POSITION_INDEPENDENT_CODE=1",
                 "-DCMAKE_TOOLCHAIN_FILE={}".format(cmake_toolchain_file),
-                "-DCMAKE_ANDROID_ARCH_ABI={arch}".format(arch=arch.arch),
                 "-DCMAKE_ANDROID_NDK=" + self.ctx.ndk_dir,
-                "-DCMAKE_C_COMPILER={cc}".format(cc=arch.get_clang_exe()),
-                "-DCMAKE_CXX_COMPILER={cc_plus}".format(
-                    cc_plus=arch.get_clang_exe(plus_plus=True)
-                ),
                 "-DANDROID_ABI={}".format(arch.arch),
                 "-DANDROID_PLATFORM=android-{}".format(self.ctx.ndk_api),
                 "-DCMAKE_BUILD_TYPE=Release",
@@ -74,7 +62,9 @@ class VgmstreamRecipe(Recipe):
                 "-DUSE_ATRAC9=OFF",
                 "-DUSE_SPEEX=OFF",
                 "-DUSE_CELT=OFF",
-                f"-DCMAKE_PREFIX_PATH={cmake_prefix_path_str}",
+                "-DFFMPEG_PATH={}".format(
+                    Recipe.get_recipe("ffmpeg_bin", self.ctx).get_build_dir(arch.arch)
+                ),
             ]
 
             shprint(sh.cmake, *cmake_args, _env=env)
