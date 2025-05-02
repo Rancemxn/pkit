@@ -31,24 +31,17 @@ class VgmstreamRecipe(Recipe):
                 ndk_dir, "build", "cmake", "android.toolchain.cmake"
             )
 
-            cmake_prefix_paths = [
-                Recipe.get_recipe("ffmpeg_bin", self.ctx).get_build_dir(arch.arch),
-                Recipe.get_recipe("libogg", self.ctx).get_build_dir(arch.arch),
-                Recipe.get_recipe("libvorbis", self.ctx).get_build_dir(arch.arch),
-            ]
-            cmake_prefix_paths = [p for p in cmake_prefix_paths if os.path.exists(p)]
-
-            cmake_prefix_path_str = ";".join(cmake_prefix_paths)
             cmake_args = [
                 "-S",
                 build_dir,
                 "-B",
                 ".",
-                "-DANDROID_STL=" + self.stl_lib_name,
+                "-DANDROID_STL=c++_shared",
                 "-DCMAKE_SYSTEM_NAME=Android",
                 "-DCMAKE_POSITION_INDEPENDENT_CODE=1",
                 "-DCMAKE_TOOLCHAIN_FILE={}".format(cmake_toolchain_file),
                 "-DCMAKE_ANDROID_ARCH_ABI={arch}".format(arch=arch.arch),
+                "-DANDROID_NDK={}".format(self.ctx.ndk_dir),
                 "-DCMAKE_ANDROID_NDK=" + self.ctx.ndk_dir,
                 "-DCMAKE_C_COMPILER={cc}".format(cc=arch.get_clang_exe()),
                 "-DCMAKE_CXX_COMPILER={cc_plus}".format(
@@ -74,7 +67,6 @@ class VgmstreamRecipe(Recipe):
                 "-DUSE_ATRAC9=OFF",
                 "-DUSE_SPEEX=OFF",
                 "-DUSE_CELT=OFF",
-                f"-DCMAKE_PREFIX_PATH={cmake_prefix_path_str}",
             ]
 
             shprint(sh.cmake, *cmake_args, _env=env)
