@@ -1,6 +1,6 @@
 --- vgmstream/cmake/dependencies/ffmpeg.cmake	2025-05-02 19:49:06.518143000 +0800
 +++ vgmstream/cmake/dependencies/ffmpeg.cmake	2025-05-02 19:57:41.623002300 +0800
-@@ -1,177 +1,12 @@
+@@ -1,177 +1,7 @@
  if(USE_FFMPEG)
 -	if(NOT FFMPEG_PATH AND NOT BUILD_STATIC)
 -		# FFmpeg detection

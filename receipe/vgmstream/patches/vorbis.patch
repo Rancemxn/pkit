@@ -1,6 +1,6 @@
 --- vgmstream/cmake/dependencies/vorbis.cmake	2025-01-01 01:18:07.000000000 +0800
 +++ vgmstream/cmake/dependencies/vorbis.cmake	2025-05-02 20:10:12.718839500 +0800
-@@ -1,44 +1,14 @@
+@@ -1,44 +1,10 @@
 -if(NOT WIN32 AND USE_VORBIS)
 -	if(NOT VORBIS_PATH)
 -		find_package(VorbisFile QUIET)
@@ -53,3 +53,4 @@
 -endif()
 +endif()
 \ No newline at end of file
+

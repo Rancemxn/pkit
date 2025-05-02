@@ -1,6 +1,6 @@
 --- vgmstream/cmake/dependencies/ogg.cmake	2025-01-01 01:18:07.000000000 +0800
 +++ vgmstream/cmake/dependencies/ogg.cmake	2025-05-02 20:30:31.263780100 +0800
-@@ -1,35 +1,6 @@
+@@ -1,35 +1,2 @@
 -if(NOT WIN32 AND USE_VORBIS)
 -	if(NOT OGG_PATH)
 -		find_package(Ogg QUIET)
