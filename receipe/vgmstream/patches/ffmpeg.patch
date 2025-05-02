@@ -176,7 +176,7 @@
 -			endforeach()
 -		endif()
 +	if(ANDROID)
-+		set(FFmpeg_INCLUDE_DIRS ${FFMPEG_PATH}/include CACHE PATH "" FORCE)
++		set(FFmpeg_INCLUDE_DIRS ${FFMPEG_PATH} CACHE PATH "" FORCE)
 +		set(FFmpeg_LIBRARIES avformat avcodec swresample avutil CACHE STRING "" FORCE)
  	endif()
  endif()
