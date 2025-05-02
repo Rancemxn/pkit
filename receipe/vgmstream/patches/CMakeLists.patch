@@ -19,14 +19,14 @@
 +	target_include_directories(libvgmstream_shared PRIVATE
 +		${libvgmstream_includes}
 +		${FFmpeg_INCLUDE_DIRS}/include
-+		${FFmpeg_INCLUDE_DIRS}/libavcodec
-+		${FFmpeg_INCLUDE_DIRS}/libavdevice
-+		${FFmpeg_INCLUDE_DIRS}/libavfilter
-+		${FFmpeg_INCLUDE_DIRS}/libavformat
-+		${FFmpeg_INCLUDE_DIRS}/libavutil
-+		${FFmpeg_INCLUDE_DIRS}/libpostproc
-+		${FFmpeg_INCLUDE_DIRS}/libswresample
-+		${FFmpeg_INCLUDE_DIRS}/libswscale
++		${FFmpeg_INCLUDE_DIRS}/include/libavcodec
++		${FFmpeg_INCLUDE_DIRS}/include/libavdevice
++		${FFmpeg_INCLUDE_DIRS}/include/libavfilter
++		${FFmpeg_INCLUDE_DIRS}/include/libavformat
++		${FFmpeg_INCLUDE_DIRS}/include/libavutil
++		${FFmpeg_INCLUDE_DIRS}/include/libpostproc
++		${FFmpeg_INCLUDE_DIRS}/include/libswresample
++		${FFmpeg_INCLUDE_DIRS}/include/libswscale
 +		${Vorbis_INCLUDE_DIRS}
 +		${OGG_INCLUDE_DIR}
 +	)
