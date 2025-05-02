@@ -11,13 +11,14 @@
  setup_target(libvgmstream)
  
  target_include_directories(libvgmstream PRIVATE ${libvgmstream_includes})
-@@ -77,14 +73,31 @@
+@@ -77,14 +73,32 @@
  		PREFIX ""
  		OUTPUT_NAME "libvgmstream"
  	)
 +	target_include_directories(libvgmstream_shared PRIVATE
 +		${libvgmstream_includes}
 +		${FFmpeg_INCLUDE_DIRS}
++		${FFmpeg_INCLUDE_DIRS}/ffmpeg
 +		${Vorbis_INCLUDE_DIRS}
 +		${OGG_INCLUDE_DIR}
 +	)
