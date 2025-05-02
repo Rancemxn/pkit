@@ -11,6 +11,7 @@ class VgmstreamRecipe(Recipe):
     depends = [
         "ffmpeg_bin",
         "libvorbis",
+        "libogg",
     ]
 
     # 声明需要 C++ STL 共享库
