@@ -4,7 +4,7 @@ import typing
 
 from loguru import logger
 
-from src.phicain.utils.syscheck import check_android
+from ..syscheck import check_android
 
 if check_android():
     logger.info("Android Platform detected. FFmpeg Patch Start.")
