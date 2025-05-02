@@ -18,7 +18,7 @@
  	)
 +	target_include_directories(libvgmstream_shared PRIVATE
 +		${libvgmstream_includes}
-+		${FFmpeg_INCLUDE_DIRS}
++		${FFmpeg_INCLUDE_DIRS}/include
 +		${FFmpeg_INCLUDE_DIRS}/libavcodec
 +		${FFmpeg_INCLUDE_DIRS}/libavdevice
 +		${FFmpeg_INCLUDE_DIRS}/libavfilter
