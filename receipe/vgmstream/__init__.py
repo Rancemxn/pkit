@@ -1,5 +1,6 @@
 from pythonforandroid.toolchain import Recipe, current_directory, shprint  # type: ignore
 import sh  # type: ignore
+from os.path import realpath
 import os
 
 
@@ -14,12 +15,7 @@ class VgmstreamRecipe(Recipe):
         "libogg",
     ]
 
-    patches = [
-        "patches/ffmpeg.patch",
-        "patches/vorbis.patch",
-        "patches/ogg.patch",
-        "patches/CMakeLists.patch",
-    ]
+    patches = ["patches/ffmpeg.patch"]
 
     need_stl_shared = True
 
@@ -37,6 +33,12 @@ class VgmstreamRecipe(Recipe):
             cmake_toolchain_file = os.path.join(
                 ndk_dir, "build", "cmake", "android.toolchain.cmake"
             )
+            if "arm64" in arch.arch:
+                arch_flag = "aarch64"
+            elif "x86" in arch.arch:
+                arch_flag = "x86"
+            else:
+                arch_flag = "arm"
             cmake_args = [
                 "-S",
                 build_dir,
@@ -67,15 +69,16 @@ class VgmstreamRecipe(Recipe):
                 "-DUSE_ATRAC9=OFF",
                 "-DUSE_SPEEX=OFF",
                 "-DUSE_CELT=OFF",
-                "-DFFMPEG_PATH={}".format(
-                    Recipe.get_recipe("ffmpeg_bin", self.ctx).get_build_dir(arch.arch)
-                ),
-                "-DOGG_PATH={}".format(
-                    Recipe.get_recipe("libogg", self.ctx).get_build_dir(arch.arch)
-                ),
-                "-DVORBIS_PATH={}".format(
-                    Recipe.get_recipe("libvorbis", self.ctx).get_build_dir(arch.arch)
-                ),
+                f"-DFFMPEG_ARGS={
+                    '--target-os=android'
+                    + '--enable-cross-compile'
+                    + '--cross-prefix={}-'.format(arch.target)
+                    + '--arch={}'.format(arch_flag)
+                    + '--strip={}'.format(self.ctx.ndk.llvm_strip)
+                    + '--sysroot={}'.format(self.ctx.ndk.sysroot)
+                    + '--enable-neon'
+                    + '--prefix={}'.format(realpath('.'))
+                }",
             ]
 
             shprint(sh.cmake, *cmake_args, _env=env)
