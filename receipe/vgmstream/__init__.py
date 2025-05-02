@@ -35,7 +35,6 @@ class VgmstreamRecipe(Recipe):
                 Recipe.get_recipe("ffmpeg_bin", self.ctx).get_build_dir(arch.arch),
                 Recipe.get_recipe("libogg", self.ctx).get_build_dir(arch.arch),
                 Recipe.get_recipe("libvorbis", self.ctx).get_build_dir(arch.arch),
-                env["SYSROOT"],
             ]
             cmake_prefix_paths = [p for p in cmake_prefix_paths if os.path.exists(p)]
 
