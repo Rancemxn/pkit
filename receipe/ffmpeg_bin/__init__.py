@@ -7,7 +7,7 @@ from multiprocessing import cpu_count
 
 
 class FFMpegRecipe(Recipe):
-    version = "n7.1.1"
+    version = "n6.1.2"
     url = "https://github.com/FFmpeg/FFmpeg/archive/{version}.zip"
     depends = ["sdl3", "av_codecs", "ffpyplayer_codecs"]
     patches = ["patches/configure.patch"]
