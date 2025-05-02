@@ -36,6 +36,6 @@
 -if(NOT OGG_PATH)
 -	unset(OGG_SOURCE)
 -endif()
-+set(OGG_INCLUDE_DIR ${OGG_PATH}/../include CACHE PATH "Ogg" FORCE)
++set(OGG_INCLUDE_DIR ${OGG_PATH}/include CACHE PATH "Ogg" FORCE)
 +set(OGG_LIBRARY ogg CACHE STRING "" FORCE)
 \ No newline at end of file

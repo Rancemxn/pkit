@@ -42,7 +42,7 @@
 -		endif()
 -	endif()
 +if(USE_VORBIS)
-+			set(Vorbis_INCLUDE_DIRS ${VORBIS_PATH}/../include CACHE PATH "Vorbis" FORCE)
++			set(Vorbis_INCLUDE_DIRS ${VORBIS_PATH}/include CACHE PATH "Vorbis" FORCE)
 +			set(VORBISFILE_INCLUDE_DIRS ${Vorbis_INCLUDE_DIRS} CACHE PATH "VorbisFile" FORCE)
 +			set(Vorbis_LIBRARIES vorbis CACHE STRING "" FORCE)
 +			set(VORBISFILE_LIBRARIES vorbisfile ${Vorbis_LIBRARIES} CACHE STRING "" FORCE)
