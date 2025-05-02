@@ -14,7 +14,7 @@ class VgmstreamRecipe(Recipe):
         "libogg",
     ]
 
-    patches = ["patches/ffmpeg.patch"]
+    patches = ["patches/ffmpeg.patch", "patches/vorbis.patch", "patches/ogg.patch"]
 
     need_stl_shared = True
 
@@ -64,6 +64,12 @@ class VgmstreamRecipe(Recipe):
                 "-DUSE_CELT=OFF",
                 "-DFFMPEG_PATH={}".format(
                     Recipe.get_recipe("ffmpeg_bin", self.ctx).get_build_dir(arch.arch)
+                ),
+                "-DOGG_PATH={}".format(
+                    Recipe.get_recipe("libogg", self.ctx).get_build_dir(arch.arch)
+                ),
+                "-DVORBIS_PATH={}".format(
+                    Recipe.get_recipe("libvorbis", self.ctx).get_build_dir(arch.arch)
                 ),
             ]
 
