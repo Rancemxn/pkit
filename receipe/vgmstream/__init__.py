@@ -16,7 +16,7 @@ class VgmstreamRecipe(Recipe):
 
     need_stl_shared = True
 
-    built_libraries = {"libvgmstream.so": "."}
+    built_libraries = {"libvgmstream.so": "./cmake_build"}
 
     def get_recipe_env(self, arch, **kwargs):
         env = super().get_recipe_env(arch, **kwargs)
