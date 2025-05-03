@@ -46,7 +46,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: build-output-on-failure-${{ github.run_id }}
-        path: /home/runner/work/pkit
+        path: /home/runner/
         retention-days: 1
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
