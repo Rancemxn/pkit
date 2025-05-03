@@ -1,6 +1,7 @@
 from pythonforandroid.toolchain import Recipe, current_directory, shprint  # type: ignore
 import sh  # type: ignore
 from os.path import realpath
+from multiprocessing import cpu_count
 import os
 
 
@@ -83,7 +84,7 @@ class VgmstreamRecipe(Recipe):
 
             shprint(sh.cmake, *cmake_args, _env=env)
 
-            shprint(sh.cmake, "--build", ".", _env=env)
+            shprint(sh.cmake, "--build", ".", "-j", str(cpu_count()), _env=env)
 
 
 recipe = VgmstreamRecipe()
