@@ -21,6 +21,11 @@ class VgmstreamRecipe(Recipe):
 
     built_libraries = {"libvgmstream.so": "."}
 
+    def get_recipe_env(self, arch):
+        env = super().get_recipe_env(arch)
+        env["NDK"] = self.ctx.ndk_dir
+        return env
+
     def build_arch(self, arch):
         build_dir = self.get_build_dir(arch.arch)
         env = self.get_recipe_env(arch)
