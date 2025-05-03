@@ -15,7 +15,7 @@ class VgmstreamRecipe(Recipe):
         "libogg",
     ]
 
-    patches = ["patches/ffmpeg.patch"]
+    patches = ["patches/ffmpeg.patch", "patches/CMakeLists.patch"]
 
     need_stl_shared = True
 
