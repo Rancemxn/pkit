@@ -23,7 +23,7 @@
  				--disable-programs
  				--disable-doc
  				--disable-avdevice
-@@ -113,6 +113,16 @@
+@@ -113,15 +113,22 @@
  				--disable-nvenc
  				--disable-nvdec
  				--disable-vdpau
@@ -40,3 +40,12 @@
  				--disable-vulkan
  				--disable-libdrm
  				--enable-parser=${FFMPEG_CONF_PARSER}
+ 				--enable-demuxer=${FFMPEG_CONF_DEMUXER}
+ 				--enable-decoder=${FFMPEG_CONF_DECODER}
+ 				--enable-swresample
+-				--extra-libs=-static
+-				--extra-cflags=--static
+-				--pkg-config-flags=--static
+ 			)
+ 			if(USE_FFMPEG_LIBOPUS)
+ 				list(APPEND FFMPEG_CONF_ARGS
