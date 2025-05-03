@@ -23,7 +23,7 @@
  				--disable-programs
  				--disable-doc
  				--disable-avdevice
-@@ -113,15 +113,22 @@
+@@ -113,15 +113,23 @@
  				--disable-nvenc
  				--disable-nvdec
  				--disable-vdpau
@@ -46,6 +46,7 @@
 -				--extra-libs=-static
 -				--extra-cflags=--static
 -				--pkg-config-flags=--static
++				--extra-ldflags="-L. -L./libavutil -L./libavcodec -L./libavformat -L./libswresample -L./bin/usr/local/lib"
  			)
  			if(USE_FFMPEG_LIBOPUS)
  				list(APPEND FFMPEG_CONF_ARGS
