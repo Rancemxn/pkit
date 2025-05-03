@@ -1,15 +1,33 @@
 --- vgmstream/cmake/dependencies/ffmpeg.cmake	2025-01-01 01:18:07.000000000 +0800
 +++ vgmstream/cmake/dependencies/ffmpeg.cmake	2025-05-03 09:01:34.385108900 +0800
-@@ -61,7 +61,7 @@
+@@ -61,8 +61,8 @@
  
  		FetchDependency(FFMPEG
  			DIR ffmpeg
 -			GIT_REPOSITORY https://git.ffmpeg.org/ffmpeg.git
+-			GIT_TAG n7.1.1
 +			GIT_REPOSITORY https://github.com/FFmpeg/FFmpeg.git
- 			GIT_TAG n5.1.2
++			GIT_TAG n5.1.2
  		)
  
-@@ -113,6 +113,16 @@
+ 		if(FFMPEG_PATH)
+@@ -87,7 +87,6 @@
+ 			string(REPLACE ";" "," FFMPEG_CONF_DECODER "${FFMPEG_CONF_DECODER}")
+ 			set(FFMPEG_CONF_ARGS
+ 				--enable-static
+-				--disable-libdrm
+ 				--disable-shared
+ 				--enable-gpl
+ 				--disable-version3
+@@ -99,6 +98,7 @@
+ 				--disable-avfilter
+ 				--disable-network
+ 				--disable-everything
++				--disable-libdrm
+ 				--disable-iconv
+ 				--disable-mediafoundation
+ 				--disable-schannel
+@@ -114,6 +114,16 @@
  				--disable-nvenc
  				--disable-nvdec
  				--disable-vdpau

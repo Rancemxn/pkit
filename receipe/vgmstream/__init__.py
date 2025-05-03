@@ -6,8 +6,8 @@ import os
 
 class VgmstreamRecipe(Recipe):
     name = "vgmstream"
-    version = "r1980"
-    url = f"https://github.com/vgmstream/vgmstream/archive/refs/tags/{version}.zip"
+    version = "c32951e"
+    url = "https://github.com/vgmstream/vgmstream/archive/c32951e914ab9401c83a6fb3f06f0cc9dc4f5ec3.zip"
 
     depends = [
         "ffmpeg_bin",
@@ -15,7 +15,7 @@ class VgmstreamRecipe(Recipe):
         "libogg",
     ]
 
-    patches = ["patches/ffmpeg.patch", "patches/CMakeLists.patch"]
+    patches = ["patches/ffmpeg.patch"]
 
     need_stl_shared = True
 
