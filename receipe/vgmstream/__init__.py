@@ -21,6 +21,15 @@ class VgmstreamRecipe(Recipe):
     def get_recipe_env(self, arch):
         env = super().get_recipe_env(arch)
         env["NDK"] = self.ctx.ndk_dir
+
+        fake_libpthread_temp_folder = Recipe.get_recipe(
+            "libpthread", self.ctx
+        ).get_build_dir(arch.arch)
+        fake_libpthread_temp_folder = os.path.join(
+            fake_libpthread_temp_folder, "p4a-libpthread-recipe-tempdir"
+        )
+        env["LDFLAGS"] += f" -L{fake_libpthread_temp_folder}"
+
         return env
 
     def build_arch(self, arch):
