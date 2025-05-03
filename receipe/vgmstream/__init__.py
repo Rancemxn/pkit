@@ -10,7 +10,7 @@ class VgmstreamRecipe(Recipe):
     version = "c32951e"
     url = "https://github.com/vgmstream/vgmstream/archive/c32951e914ab9401c83a6fb3f06f0cc9dc4f5ec3.zip"
 
-    depends = ["libpthread"]
+    depends = ["librt", "libpthread"]
 
     patches = ["patches/ffmpeg.patch"]
 
@@ -18,17 +18,9 @@ class VgmstreamRecipe(Recipe):
 
     built_libraries = {"libvgmstream.so": "."}
 
-    def get_recipe_env(self, arch):
-        env = super().get_recipe_env(arch)
+    def get_recipe_env(self, arch, **kwargs):
+        env = super().get_recipe_env(arch, **kwargs)
         env["NDK"] = self.ctx.ndk_dir
-
-        fake_libpthread_temp_folder = Recipe.get_recipe(
-            "libpthread", self.ctx
-        ).get_build_dir(arch.arch)
-        fake_libpthread_temp_folder = os.path.join(
-            fake_libpthread_temp_folder, "p4a-libpthread-recipe-tempdir"
-        )
-        env["LDFLAGS"] += f" -L{fake_libpthread_temp_folder}"
 
         return env
 
@@ -89,7 +81,16 @@ class VgmstreamRecipe(Recipe):
                 f"-DFF_CXX={os.path.join(self.ctx.ndk.llvm_bin_dir, arch.target + '-clang++')}",
                 f"-DFF_AR={self.ctx.ndk.llvm_ar}",
                 f"-DFF_RANLIB={self.ctx.ndk.llvm_ranlib}",
+                "-DCMAKE_VERBOSE_MAKEFILE=ON",
             ]
+
+            fake_libpthread_temp_folder = Recipe.get_recipe(
+                "libpthread", self.ctx
+            ).get_build_dir(arch.arch)
+            fake_libpthread_temp_folder = os.path.join(
+                fake_libpthread_temp_folder, "p4a-libpthread-recipe-tempdir"
+            )
+            env["LDFLAGS"] += f" -L{fake_libpthread_temp_folder}"
 
             shprint(sh.cmake, *cmake_args, _env=env)
 
