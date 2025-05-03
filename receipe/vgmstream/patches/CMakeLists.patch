@@ -98,14 +98,14 @@
 +    # The names should correspond to the targets imported/built by FetchDependency(FFMPEG)
 +    # in cmake/dependencies/ffmpeg.cmake (avutil, avformat, swresample, avcodec)
 +    # These imported targets link to the .a files based on FFMPEG_LINK_PATH
-+    target_link_libraries(libvgmstream PRIVATE
++    target_link_libraries(libvgmstream
 +        avutil avformat swresample avcodec
 +        # Also link to other static dependencies if needed by libvgmstream.a
 +        # e.g., ogg, vorbis, vorbisfile if linked statically
 +    )
 +endif()
 +# Link to system libraries needed by the static library (like libm)
-+target_link_libraries(libvgmstream PRIVATE
++target_link_libraries(libvgmstream
 +    m # Math library
 +)
 +
@@ -150,20 +150,20 @@
 +
 +	# Link to FFmpeg shared libraries by name
 +	# These library names correspond to the shared libraries built by FFmpeg
-+	target_link_libraries(libvgmstream_shared PRIVATE
++	target_link_libraries(libvgmstream_shared
 +		avutil avformat avcodec swresample # Link to FFmpeg shared libraries by name
 +	)
 +
 +    # Link to other dependencies used by libvgmstream_shared
 +    # Based on vgmstream-cli link line, needs ogg and vorbis shared libs
-+    target_link_libraries(libvgmstream_shared PRIVATE
++    target_link_libraries(libvgmstream_shared
 +        ogg vorbis vorbisfile # Link to Ogg and Vorbis shared libraries by name
 +    )
 +
 +    # Link to system libraries needed by the shared library
 +    # libm, pthread, atomic are often needed
 +    # The toolchain file might handle some implicitly, but explicit can be safer
-+    target_link_libraries(libvgmstream_shared PRIVATE
++    target_link_libraries(libvgmstream_shared
 +        m        # Math library
 +        pthread  # POSIX threads (needed on many systems, handled by p4a symlink on Android)
 +        atomic   # Atomic operations
