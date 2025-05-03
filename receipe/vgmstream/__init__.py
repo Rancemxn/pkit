@@ -83,7 +83,6 @@ class VgmstreamRecipe(Recipe):
                 f"-DFF_CXX={self.ctx.ndk.clang_cxx}",
                 f"-DFF_AR={self.ctx.ndk.llvm_ar}",
                 f"-DFF_RANLIB={self.ctx.ndk.llvm_ranlib}",
-                f"-DFF_NM={self.ctx.ndk.llvm_nm}",
             ]
 
             shprint(sh.cmake, *cmake_args, _env=env)

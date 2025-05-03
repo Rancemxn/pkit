@@ -9,7 +9,7 @@
  			GIT_TAG n5.1.2
  		)
  
-@@ -113,6 +113,17 @@
+@@ -113,6 +113,16 @@
  				--disable-nvenc
  				--disable-nvdec
  				--disable-vdpau
@@ -22,7 +22,6 @@
 +				--cxx=${FF_CXX}
 +				--ar=${FF_AR}
 +				--ranlib=${FF_RANLIB}
-+				--nm=${FF_NM}
 +				--enable-neon
  				--disable-vulkan
  				--enable-parser=${FFMPEG_CONF_PARSER}
