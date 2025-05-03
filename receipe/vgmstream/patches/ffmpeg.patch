@@ -11,6 +11,18 @@
  		)
  
  		if(FFMPEG_PATH)
+@@ -87,9 +87,9 @@
+ 			string(REPLACE ";" "," FFMPEG_CONF_DECODER "${FFMPEG_CONF_DECODER}")
+ 			set(FFMPEG_CONF_ARGS
+ 				--enable-static
+-				--disable-shared
++				--enable-shared
+ 				--enable-gpl
+-				--disable-version3
++				--enable-version3
+ 				--disable-programs
+ 				--disable-doc
+ 				--disable-avdevice
 @@ -113,6 +113,16 @@
  				--disable-nvenc
  				--disable-nvdec
