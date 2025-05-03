@@ -79,8 +79,8 @@ class VgmstreamRecipe(Recipe):
                 f"-DFFMPEG_STRIP={self.ctx.ndk.llvm_strip}",
                 f"-DFFMPEG_SYSROOT={self.ctx.ndk.sysroot}",
                 f"-DFFMPEG_PREFIX={realpath('.')}",
-                f"-DFF_CC={self.ctx.ndk.clang}",
-                f"-DFF_CXX={self.ctx.ndk.clang_cxx}",
+                f"-DFF_CC={os.path.join(self.ctx.ndk.llvm_bin_dir, arch.target + '-clang')}",
+                f"-DFF_CXX={os.path.join(self.ctx.ndk.llvm_bin_dir, arch.target + '-clang++')}",
                 f"-DFF_AR={self.ctx.ndk.llvm_ar}",
                 f"-DFF_RANLIB={self.ctx.ndk.llvm_ranlib}",
             ]
