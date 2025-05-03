@@ -41,7 +41,8 @@ jobs:
       run: |
         pip install wheel setuptools Cython buildozer
         buildozer android debug
-    - run: ls
+    - if: failure()
+      run: ls
     - name: Upload on failure
       if: failure()
       uses: actions/upload-artifact@v4
