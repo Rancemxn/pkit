@@ -9,11 +9,7 @@ class VgmstreamRecipe(Recipe):
     version = "c32951e"
     url = "https://github.com/vgmstream/vgmstream/archive/c32951e914ab9401c83a6fb3f06f0cc9dc4f5ec3.zip"
 
-    depends = [
-        "ffmpeg_bin",
-        "libvorbis",
-        "libogg",
-    ]
+    depends = []
 
     patches = ["patches/ffmpeg.patch"]
 

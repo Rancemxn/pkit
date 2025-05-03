@@ -11,23 +11,7 @@
  		)
  
  		if(FFMPEG_PATH)
-@@ -87,7 +87,6 @@
- 			string(REPLACE ";" "," FFMPEG_CONF_DECODER "${FFMPEG_CONF_DECODER}")
- 			set(FFMPEG_CONF_ARGS
- 				--enable-static
--				--disable-libdrm
- 				--disable-shared
- 				--enable-gpl
- 				--disable-version3
-@@ -99,6 +98,7 @@
- 				--disable-avfilter
- 				--disable-network
- 				--disable-everything
-+				--disable-libdrm
- 				--disable-iconv
- 				--disable-mediafoundation
- 				--disable-schannel
-@@ -114,6 +114,16 @@
+@@ -113,6 +113,16 @@
  				--disable-nvenc
  				--disable-nvdec
  				--disable-vdpau
@@ -42,5 +26,5 @@
 +				--ranlib=${FF_RANLIB}
 +				--enable-neon
  				--disable-vulkan
+ 				--disable-libdrm
  				--enable-parser=${FFMPEG_CONF_PARSER}
- 				--enable-demuxer=${FFMPEG_CONF_DEMUXER}
