@@ -42,6 +42,15 @@ class VgmstreamRecipe(Recipe):
                 arch_flag = "x86"
             else:
                 arch_flag = "arm"
+
+            fake_libpthread_temp_folder = Recipe.get_recipe(
+                "libpthread", self.ctx
+            ).get_build_dir(arch.arch)
+            fake_libpthread_temp_folder = os.path.join(
+                fake_libpthread_temp_folder, "p4a-libpthread-recipe-tempdir"
+            )
+            env["LDFLAGS"] += f" -L{fake_libpthread_temp_folder}"
+
             cmake_args = [
                 "-S",
                 build_dir,
@@ -82,15 +91,10 @@ class VgmstreamRecipe(Recipe):
                 f"-DFF_AR={self.ctx.ndk.llvm_ar}",
                 f"-DFF_RANLIB={self.ctx.ndk.llvm_ranlib}",
                 "-DCMAKE_VERBOSE_MAKEFILE=ON",
+                f"-DCMAKE_SHARED_LINKER_FLAGS={env['LDFLAGS']}",
+                f"-DCMAKE_EXE_LINKER_FLAGS={env['LDFLAGS']}",
+                f"-DCMAKE_MODULE_LINKER_FLAGS={env['LDFLAGS']}",
             ]
-
-            fake_libpthread_temp_folder = Recipe.get_recipe(
-                "libpthread", self.ctx
-            ).get_build_dir(arch.arch)
-            fake_libpthread_temp_folder = os.path.join(
-                fake_libpthread_temp_folder, "p4a-libpthread-recipe-tempdir"
-            )
-            env["LDFLAGS"] += f" -L{fake_libpthread_temp_folder}"
 
             shprint(sh.cmake, *cmake_args, _env=env)
 
