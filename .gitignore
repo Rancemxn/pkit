@@ -167,3 +167,6 @@ cython_debug/
 
 # For fetchPackage
 Phigros.*.apk
+
+# For WSL Build
+.venv_wsl
