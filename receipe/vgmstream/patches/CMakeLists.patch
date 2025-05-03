@@ -1,0 +1,11 @@
+--- vgmstream/src/CMakeLists.txt	2025-05-03 20:45:03.824322500 +0800
++++ vgmstream/src/CMakeLists.txt	2025-05-03 20:46:28.962003000 +0800
+@@ -72,7 +72,7 @@
+ 
+ # libvgmstream.so
+ if(NOT EMSCRIPTEN)
+-	add_library(libvgmstream_shared SHARED EXCLUDE_FROM_ALL ${libvgmstream_sources})
++	add_library(libvgmstream_shared SHARED ${libvgmstream_sources})
+ 	set_target_properties(libvgmstream_shared PROPERTIES
+ 		PREFIX ""
+ 		OUTPUT_NAME "libvgmstream"

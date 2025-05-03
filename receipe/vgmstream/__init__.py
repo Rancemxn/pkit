@@ -10,9 +10,9 @@ class VgmstreamRecipe(Recipe):
     version = "c32951e"
     url = "https://github.com/vgmstream/vgmstream/archive/c32951e914ab9401c83a6fb3f06f0cc9dc4f5ec3.zip"
 
-    depends = ["librt", "libpthread"]
+    depends = ["libpthread"]
 
-    patches = ["patches/ffmpeg.patch"]
+    patches = ["patches/ffmpeg.patch", "patches/CMakeLists.patch"]
 
     need_stl_shared = True
 
@@ -94,6 +94,7 @@ class VgmstreamRecipe(Recipe):
                 f"-DCMAKE_SHARED_LINKER_FLAGS={env['LDFLAGS']}",
                 f"-DCMAKE_EXE_LINKER_FLAGS={env['LDFLAGS']}",
                 f"-DCMAKE_MODULE_LINKER_FLAGS={env['LDFLAGS']}",
+                "-DEMSCRIPTEN=OFF",
             ]
 
             shprint(sh.cmake, *cmake_args, _env=env)
