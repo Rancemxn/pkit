@@ -7,7 +7,7 @@ from pythonforandroid.toolchain import Recipe, current_directory, shprint  # typ
 
 
 class FFMpegRecipe(Recipe):
-    version = "n6.1.2"
+    version = "n7.1.1"
     url = "https://github.com/FFmpeg/FFmpeg/archive/{version}.zip"
     depends = ["sdl3", "av_codecs", "ffpyplayer_codecs"]
     patches = ["patches/configure.patch"]
