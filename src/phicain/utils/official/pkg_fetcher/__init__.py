@@ -1,10 +1,14 @@
+from pathlib import Path
+
 from loguru import logger
 from pysmartdl2 import SmartDL
 
 import taptap
 
 
-def fetch(platform: str = "taptap", name: str = ".", threads: int = 32) -> None | str:
+def fetch(
+    platform: str = "taptap", name: str | Path = ".", threads: int = 32
+) -> None | str:
     url = ""
     match platform:
         case "taptap":
@@ -12,13 +16,15 @@ def fetch(platform: str = "taptap", name: str = ".", threads: int = 32) -> None 
             version_name = data["version_name"]
             url = data["download"]
             logger.info("taptap url Detected.")
-            if name == ".":  # fix filename instead of hashname like
+            if str(name) == ".":  # fix filename instead of hashname like
                 name = f"./Phigros.{version_name}.apk"
         case _:
             logger.warning("Unknown Platform Detected. Ignored")
             return
 
-    task = SmartDL(urls=url, dest=name, logger=logger, threads=threads, verify=False)
+    task = SmartDL(
+        urls=url, dest=str(name), logger=logger, threads=threads, verify=False
+    )
 
     logger.info("Download Start.")
 
@@ -35,4 +41,29 @@ def fetch(platform: str = "taptap", name: str = ".", threads: int = 32) -> None 
 
 
 if __name__ == "__main__":
-    fetch()
+    import typer
+
+    app = typer.Typer()
+
+    from typing_extensions import Annotated
+
+    @app.command()
+    def fetchPackage(
+        platform: Annotated[
+            str,
+            typer.Option(help="Choose what platform to fetch Official Package."),
+        ] = "taptap",
+        path: Annotated[
+            Path,
+            typer.Option(writable=True, help="Choose where to save Package."),
+        ] = Path("."),
+        threads: Annotated[
+            int,
+            typer.Option(
+                min=1, max=64, help="Choose how many threads to fetch Package."
+            ),
+        ] = 16,
+    ):
+        fetch(platform, path, threads)
+
+    app(prog_name="OfficialPackageFetcher")

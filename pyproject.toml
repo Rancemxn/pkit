@@ -20,6 +20,9 @@ license = {text = "GPL-3.0"}
 [tool.pdm]
 distribution = false
 
+[tool.black]
+line-length = 80
+
 [dependency-groups]
 dev = [
     "black>=25.1.0",
@@ -40,5 +43,4 @@ log_cli_format = "%(asctime)s [%(levelname)s] %(message)s"
 log_cli_date_format = "%Y-%m-%d %H:%M:%S"
 
 [tool.pdm.scripts]
-# https://github.com/pdm-project/pdm/issues/3486
-fetchpkg = { cmd = "python src/phicain/utils/official/pkg_fetcher/__init__.py", env = { PYTHONPATH = "${PWD}${sep}src" } }
+fetchpkg = "python src/phicain/utils/official/pkg_fetcher/__init__.py"
