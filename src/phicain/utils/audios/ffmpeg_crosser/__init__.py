@@ -54,4 +54,4 @@ if check_android():
 
 logger.info("Test FFmpeg with")
 
-cmd(["ffmpeg"])
+cmd(["ffmpeg", "-h"])

@@ -49,4 +49,4 @@ if check_android():
 
 logger.info("Test Vgmstream")
 
-cmd([vgm_bin_path])
+cmd([vgm_bin_path, "-h"])
