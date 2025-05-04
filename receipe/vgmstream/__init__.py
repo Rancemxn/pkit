@@ -142,7 +142,7 @@ class VgmstreamRecipe(Recipe):
             shprint(
                 sh.cp,
                 "vgmstream_cli",
-                "./cmake_build/cli/vgmstream_cli",
+                "./cmake_build/cli/vgmstream-cli",
             )
             shprint(
                 sh.cp,
