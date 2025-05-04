@@ -3,8 +3,8 @@ import shutil
 from os.path import join
 from loguru import logger
 
-from ..libcheck import cmd
-from ..syscheck import check_android
+from ...libcheck import cmd
+from ...syscheck import check_android
 
 vgm_bin_path: str = "vgmstream-cli"
 

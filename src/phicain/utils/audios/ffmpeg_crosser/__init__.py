@@ -4,8 +4,8 @@ import typing
 
 from loguru import logger
 
-from ..libcheck import cmd
-from ..syscheck import check_android
+from ...libcheck import cmd
+from ...syscheck import check_android
 
 if check_android():
     logger.info("Android Platform detected. FFmpeg Patch Start.")

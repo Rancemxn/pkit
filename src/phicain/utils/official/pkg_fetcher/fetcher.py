@@ -1,7 +1,7 @@
 from loguru import logger
 from pysmartdl2 import SmartDL
 
-from phicain.utils.official.pkg_fetcher import taptap
+from . import taptap
 
 
 def fetch(platform: str = "taptap", name: str = ".", threads: int = 32) -> None | str:

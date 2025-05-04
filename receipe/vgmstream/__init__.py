@@ -1,8 +1,9 @@
-from pythonforandroid.toolchain import Recipe, current_directory, shprint  # type: ignore
-import sh  # type: ignore
+import os
 from os.path import realpath
 from multiprocessing import cpu_count
-import os
+
+from pythonforandroid.toolchain import Recipe, current_directory, shprint  # type: ignore
+import sh  # type: ignore
 
 
 class VgmstreamRecipe(Recipe):
