@@ -33,7 +33,7 @@ if check_android():
         "libswresample_vgm.so",
     ]
     for lib in built_libraries:
-        shutil.copy2(lib, join(vgmdir, lib))
+        shutil.copy2(join(native_lib_dir, lib), join(vgmdir, lib))
 
     vgm_bin_path = join(vgmdir, "vgmstream-cli")
 
