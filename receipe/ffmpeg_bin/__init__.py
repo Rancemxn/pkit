@@ -1,13 +1,13 @@
 # Reference: https://github.com/kivy/python-for-android/issues/3137#issuecomment-2764709681
-
-from pythonforandroid.toolchain import Recipe, current_directory, shprint  # type: ignore
 from os.path import realpath
-import sh  # type: ignore
 from multiprocessing import cpu_count
+
+import sh  # type: ignore
+from pythonforandroid.toolchain import Recipe, current_directory, shprint  # type: ignore
 
 
 class FFMpegRecipe(Recipe):
-    version = "n6.1.2"
+    version = "n7.1.1"
     url = "https://github.com/FFmpeg/FFmpeg/archive/{version}.zip"
     depends = ["sdl3", "av_codecs", "ffpyplayer_codecs"]
     patches = ["patches/configure.patch"]

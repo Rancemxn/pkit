@@ -4,7 +4,8 @@ import typing
 
 from loguru import logger
 
-from ..syscheck import check_android
+from ...libcheck import cmd
+from ...syscheck import check_android
 
 if check_android():
     logger.info("Android Platform detected. FFmpeg Patch Start.")
@@ -51,51 +52,6 @@ if check_android():
 
     logger.info("FFmpeg Patch Done.")
 
-logger.info("Test FFmpeg with '--version'")
+logger.info("Test FFmpeg with")
 
-result = subprocess.run(
-    ["ffmpeg", "-version"],
-    capture_output=True,
-    text=True,
-    check=False,
-)
-
-if result.returncode != 0:
-    logger.error(
-        f"Command '{' '.join(result.args)}' returned non-zero exit status {result.returncode}."
-    )
-    logger.error("--- FFmpeg stdout ---")
-    logger.error(result.stdout)
-    logger.error("--- FFmpeg stderr ---")
-    logger.error(result.stderr)
-    logger.error("---------------------")
-else:
-    logger.info(f"Command '{' '.join(result.args)}' executed successfully.")
-    logger.info("--- FFmpeg stdout ---")
-    logger.info(result.stdout)
-    logger.info("---------------------")
-
-    logger.info("FFmpeg Found.")
-    logger.debug("List support formats.")
-    logger.debug(
-        subprocess.run(
-            ["ffmpeg", "-formats"],
-            capture_output=True,
-            text=True,
-            check=False,
-        ).stdout
-    )
-
-    logger.debug("Done.")
-
-    logger.debug("List support codecs.")
-    logger.debug(
-        subprocess.run(
-            ["ffmpeg", "-codecs"],
-            capture_output=True,
-            text=True,
-            check=False,
-        ).stdout
-    )
-
-    logger.debug("Done.")
+cmd(["ffmpeg", "-h"])

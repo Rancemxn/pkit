@@ -1,0 +1,122 @@
+--- vgmstream/src/CMakeLists.txt	2025-05-03 20:45:03.824322500 +0800
++++ vgmstream/src/CMakeLists.txt	2025-05-03 20:46:28.962003000 +0800
+@@ -10,12 +10,14 @@
+ file(GLOB META_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/meta/*.c")
+ file(GLOB UTIL_HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/util/*.h")
+ file(GLOB UTIL_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/util/*.c")
++
+ set(EXT_HEADERS
+-	${VGM_SOURCE_DIR}/ext_includes/pstdint.h)
++	${VGM_SOURCE_DIR}/ext_includes/pstdint.h) # Assuming pstdint.h is always needed from ext_includes
++
+ file(GLOB MAIN_HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
+ file(GLOB MAIN_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/*.c")
+ 
+-# Setup source groups, mainly for Visual Studio
++
+ source_group("Header Files\\base" FILES ${BASE_HEADERS})
+ source_group("Header Files\\coding" FILES ${CODING_HEADERS})
+ source_group("Header Files\\coding\\libs" FILES ${CLIBS_HEADERS})
+@@ -31,6 +33,7 @@
+ source_group("Source Files\\meta" FILES ${META_SOURCES})
+ source_group("Source Files\\util" FILES ${UTIL_SOURCES})
+ 
++
+ set(libvgmstream_sources
+ 	${BASE_HEADERS}
+ 	${BASE_SOURCES}
+@@ -48,45 +51,74 @@
+ 	${MAIN_HEADERS}
+ 	${MAIN_SOURCES}
+ )
+-# Set up the proper include directories
++
+ set(libvgmstream_includes
+-	${VGM_SOURCE_DIR}/ext_includes
+-	base
+-	coding
+-	layout
+-	meta
+-	util
++	${CMAKE_CURRENT_SOURCE_DIR}
++	${VGM_SOURCE_DIR}/ext_includes 
+ )
+ 
+-# libvgmstream.a
++
+ add_library(libvgmstream STATIC ${libvgmstream_sources})
+ set_target_properties(libvgmstream PROPERTIES PREFIX "")
+ 
+ if(USE_FFMPEG AND FFMPEG_COMPILE)
+-	add_dependencies(libvgmstream avcodec)
++	add_dependencies(libvgmstream FFMPEG_MAKE) 
+ endif()
+ 
+ setup_target(libvgmstream)
+ 
+ target_include_directories(libvgmstream PRIVATE ${libvgmstream_includes})
+ 
+-# libvgmstream.so
++if(USE_FFMPEG AND FFMPEG_COMPILE)
++    set(FFMPEG_STATIC_LIB_DIR ${FFMPEG_BIN}/bin/usr/local/lib)
++
++    target_link_directories(libvgmstream PRIVATE ${FFMPEG_STATIC_LIB_DIR})
++    target_link_libraries(libvgmstream
++        avutil avformat swresample avcodec
++    )
++endif()
++target_link_libraries(libvgmstream
++    m
++)
++
++
+ if(NOT EMSCRIPTEN)
+-	add_library(libvgmstream_shared SHARED EXCLUDE_FROM_ALL ${libvgmstream_sources})
++	add_library(libvgmstream_shared SHARED ${libvgmstream_sources})
++
+ 	set_target_properties(libvgmstream_shared PROPERTIES
+-		PREFIX ""
++		PREFIX ""  
+ 		OUTPUT_NAME "libvgmstream"
+ 	)
+-	
++
+ 	if(USE_FFMPEG AND FFMPEG_COMPILE)
+-		add_dependencies(libvgmstream_shared avcodec)
++		add_dependencies(libvgmstream_shared FFMPEG_MAKE) # Assuming avcodec target represents the internal FFmpeg build
+ 	endif()
+-	
+-	setup_target(libvgmstream_shared TRUE)
+-	
++
++	set(FFMPEG_SHARED_LIB_DIR ${FFMPEG_BIN}/bin/usr/local/lib)
++
++	target_link_directories(libvgmstream_shared PRIVATE ${FFMPEG_SHARED_LIB_DIR})
++
++	target_link_libraries(libvgmstream_shared
++		avutil avformat avcodec swresample # Link to FFmpeg shared libraries by name
++	)
++
++    target_link_libraries(libvgmstream_shared
++        ogg vorbis vorbisfile # Link to Ogg and Vorbis shared libraries by name
++    )
++
++    target_link_libraries(libvgmstream_shared
++        m
++        pthread
++        atomic
++    )
++
++
++	setup_target(libvgmstream_shared TRUE) # TRUE indicates it's a shared library
++
+ 	target_include_directories(libvgmstream_shared PRIVATE ${libvgmstream_includes})
+-	
++
+ 	if(CMAKE_CXX_COMPILER_ID MATCHES Clang OR CMAKE_CXX_COMPILER_ID MATCHES GNU)
+ 		set_target_properties(libvgmstream_shared PROPERTIES LINK_FLAGS_RELEASE -s)
+ 	endif()
+-endif()
++
++endif()
+\ No newline at end of file

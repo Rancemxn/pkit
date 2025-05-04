@@ -1,0 +1,72 @@
+--- vgmstream/cmake/dependencies/ffmpeg.cmake	2025-01-01 01:18:07.000000000 +0800
++++ vgmstream/cmake/dependencies/ffmpeg.cmake	2025-05-03 09:01:34.385108900 +0800
+@@ -61,8 +61,8 @@
+ 
+ 		FetchDependency(FFMPEG
+ 			DIR ffmpeg
+-			GIT_REPOSITORY https://git.ffmpeg.org/ffmpeg.git
+-			GIT_TAG n7.1.1
++			GIT_REPOSITORY https://github.com/FFmpeg/FFmpeg.git
++			GIT_TAG n5.1.2
+ 		)
+ 
+ 		if(FFMPEG_PATH)
+@@ -86,10 +86,10 @@
+ 			string(REPLACE ";" "," FFMPEG_CONF_DEMUXER "${FFMPEG_CONF_DEMUXER}")
+ 			string(REPLACE ";" "," FFMPEG_CONF_DECODER "${FFMPEG_CONF_DECODER}")
+ 			set(FFMPEG_CONF_ARGS
+-				--enable-static
+-				--disable-shared
++				--disable-static
++				--enable-shared
+ 				--enable-gpl
+-				--disable-version3
++				--enable-version3
+ 				--disable-programs
+ 				--disable-doc
+ 				--disable-avdevice
+@@ -113,15 +113,25 @@
+ 				--disable-nvenc
+ 				--disable-nvdec
+ 				--disable-vdpau
++				--target-os=android
++				--enable-cross-compile
++				--arch=${FFMPEG_ARCH}
++				--strip=${FFMPEG_STRIP}
++				--sysroot=${FFMPEG_SYSROOT}
++				--cc=${FF_CC}
++				--cxx=${FF_CXX}
++				--ar=${FF_AR}
++				--ranlib=${FF_RANLIB}
++				--enable-neon
+ 				--disable-vulkan
+ 				--disable-libdrm
+ 				--enable-parser=${FFMPEG_CONF_PARSER}
+ 				--enable-demuxer=${FFMPEG_CONF_DEMUXER}
+ 				--enable-decoder=${FFMPEG_CONF_DECODER}
+ 				--enable-swresample
+-				--extra-libs=-static
+-				--extra-cflags=--static
+-				--pkg-config-flags=--static
++				--enable-pic
++				
++				--extra-ldflags="-L. -L./libavutil -L./libavcodec -L./libavformat -L./libswresample -L./bin/usr/local/lib"
+ 			)
+ 			if(USE_FFMPEG_LIBOPUS)
+ 				list(APPEND FFMPEG_CONF_ARGS
+@@ -164,12 +174,10 @@
+ 			)
+ 
+ 			foreach(LIB avutil avformat swresample avcodec)
+-				add_library(${LIB} STATIC IMPORTED)
+-				if(NOT EXISTS ${FFMPEG_LINK_PATH}/lib${LIB}.a)
+-					add_dependencies(${LIB} FFMPEG_MAKE)
+-				endif()
++				add_library(${LIB} SHARED IMPORTED)
++				add_dependencies(${LIB} FFMPEG_MAKE)
+ 				set_target_properties(${LIB} PROPERTIES
+-					IMPORTED_LOCATION ${FFMPEG_LINK_PATH}/lib${LIB}.a
++					IMPORTED_LOCATION ${CMAKE_CURRENT_BINARY_DIR}/dependencies/ffmpeg/lib${LIB}/lib${LIB}.so
+ 				)
+ 			endforeach()
+ 		endif()
