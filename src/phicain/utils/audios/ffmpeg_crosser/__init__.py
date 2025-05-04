@@ -5,9 +5,9 @@ import typing
 from loguru import logger
 
 from ...libcheck import cmd
-from ...syscheck import check_android
+from ...syscheck import android
 
-if check_android():
+if android():
     logger.info("Android Platform detected. FFmpeg Patch Start.")
 
     _original_run: typing.Callable = subprocess.run

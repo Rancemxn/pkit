@@ -1,7 +1,9 @@
 import sys
 
+os: str = ""
 
-def check_android() -> bool:
+
+def android() -> bool:
     try:
         import android  # type: ignore  # noqa: F401
 
@@ -10,11 +12,13 @@ def check_android() -> bool:
         return False
 
 
-os: str = ""
+def mobile() -> bool:
+    return os == "android" or os == "ios"  # ios is on plan(?)
+
 
 match sys.platform:
     case "linux":
-        os = "linux" if not check_android() else "android"
+        os = "linux" if not android() else "android"
     case "win32":
         os = "windows"
     case "darwin":

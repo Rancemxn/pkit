@@ -4,11 +4,11 @@ from os.path import join
 from loguru import logger
 
 from ...libcheck import cmd
-from ...syscheck import check_android
+from ...syscheck import android
 
 vgm_bin_path: str = "vgmstream-cli"
 
-if check_android():
+if android():
     logger.info("Android Platform detected. Vgmstream Path Fix Start.")
     from android import mActivity  # type: ignore
 
