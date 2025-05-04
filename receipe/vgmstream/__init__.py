@@ -141,7 +141,7 @@ class VgmstreamRecipe(Recipe):
             # Rename libs to avoid conflicts
             shprint(
                 sh.cp,
-                "./cmake_build/cli/vgmstream-cli",
+                "./cmake_build/cli/vgmstream_cli",
                 "vgmstream_cli",
             )
             shprint(
