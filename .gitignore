@@ -32,6 +32,9 @@ MANIFEST
 *.manifest
 *.spec
 
+# For Buildozer(Android)
+!buildozer.spec 
+
 # Installer logs
 pip-log.txt
 pip-delete-this-directory.txt

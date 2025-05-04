@@ -1,6 +1,6 @@
 import os
 
-import src.phicain.utils.official.pkg_fetcher.fetcher as fetcher
+import src.phicain.utils.official.pkg_fetcher as fetcher
 
 
 def test_download_pkg_from_taptap():

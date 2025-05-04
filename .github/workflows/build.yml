@@ -1,0 +1,47 @@
+name: Android Build
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  arm64_v8a:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install Prerequisites
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+            ant \
+            autoconf \
+            automake \
+            ccache \
+            build-essential \
+            lbzip2 \
+            libffi-dev \
+            libltdl-dev \
+            libtool \
+            libssl-dev \
+            patch \
+            pkg-config \
+            zlib1g-dev \
+            libncurses-dev
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.13'
+    - name: Setup Java
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'zulu'
+        java-version: '17'
+    - name: Build Application
+      run: |
+        pip install wheel setuptools Cython buildozer
+        buildozer android debug
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        path: .buildozer/android/platform/build-arm64-v8a/dists/pkit/build/outputs/apk/debug/pkit-debug.apk
