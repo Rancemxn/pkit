@@ -25,7 +25,7 @@
  set(libvgmstream_sources
  	${BASE_HEADERS}
  	${BASE_SOURCES}
-@@ -48,45 +51,75 @@
+@@ -48,45 +51,74 @@
  	${MAIN_HEADERS}
  	${MAIN_SOURCES}
  )
@@ -46,7 +46,6 @@
 +
  add_library(libvgmstream STATIC ${libvgmstream_sources})
  set_target_properties(libvgmstream PROPERTIES PREFIX "")
-+prefix (lib)
  
  if(USE_FFMPEG AND FFMPEG_COMPILE)
 -	add_dependencies(libvgmstream avcodec)
