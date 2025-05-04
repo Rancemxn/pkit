@@ -10,13 +10,21 @@ class VgmstreamRecipe(Recipe):
     version = "c32951e"
     url = "https://github.com/vgmstream/vgmstream/archive/c32951e914ab9401c83a6fb3f06f0cc9dc4f5ec3.zip"
 
-    depends = ["libpthread", "ffmpeg_bin", "libvorbis", "libogg"]
+    depends = ["libpthread"]
 
     patches = ["patches/ffmpeg.patch", "patches/CMakeLists.patch"]
 
-    need_stl_shared = True
-
-    built_libraries = {"libvgmstream.so": "./cmake_build/src"}
+    built_libraries = {
+        "vgmstream_cli": "./cmake_build/cli",
+        "libvgmstream.so": "./cmake_build/src",
+        "libvorbis_vgm.so": "./cmake_build/dependencies/vorbis/lib/libvorbis.so",
+        "libvorbisfile_vgm.so": "./cmake_build/dependencies/vorbis/lib/libvorbisfile.so",
+        "libogg_vgm.so": "./cmake_build/dependencies/ogg/libogg.so",
+        "libavcodec_vgm.so": "./cmake_build/dependencies/ffmpeg/bin/usr/local/lib/libavcodec.so",
+        "libavformat_vgm.so": "./cmake_build/dependencies/ffmpeg/bin/usr/local/lib/libavformat.so",
+        "libavutil_vgm.so": "./cmake_build/dependencies/ffmpeg/bin/usr/local/lib/libavutil.so",
+        "libswresample_vgm.so": "./cmake_build/dependencies/ffmpeg/bin/usr/local/lib/libswresample.so",
+    }
 
     def get_recipe_env(self, arch, **kwargs):
         env = super().get_recipe_env(arch, **kwargs)
