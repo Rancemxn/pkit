@@ -6,7 +6,7 @@ from loguru import logger
 from ..libcheck import cmd
 from ..syscheck import check_android
 
-vgm_bin_path: str = "vgmstream_cli"
+vgm_bin_path: str = "vgmstream-cli"
 
 if check_android():
     logger.info("Android Platform detected. Vgmstream Path Fix Start.")
@@ -14,14 +14,14 @@ if check_android():
 
     app_info = mActivity.getApplicationInfo()
     native_lib_dir: str = app_info.nativeLibraryDir
-    vgm_bin_path = join(native_lib_dir, "vgmstream_cli")
-    logger.info(f"Found Vgmstream_cli locate in {vgm_bin_path}")
+    vgm_bin_path = join(native_lib_dir, "vgmstream-cli")
+    logger.info(f"Found Vgmstream-cli locate in {vgm_bin_path}")
 
     vgmdir = join(native_lib_dir, "vgmstream")
     os.makedirs(vgmdir, exist_ok=True)
 
     built_libraries = [
-        "vgmstream_cli",
+        "vgmstream-cli",
         "libvgmstream.so",
         "libvorbis_vgm.so",
         "libvorbisfile_vgm.so",
@@ -34,7 +34,7 @@ if check_android():
     for lib in built_libraries:
         shutil.move(lib, join(vgmdir, lib))
 
-    vgm_bin_path = join(vgmdir, "vgmstream_cli")
+    vgm_bin_path = join(vgmdir, "vgmstream-cli")
 
     logger.info(f"Move to {vgm_bin_path}")
 
