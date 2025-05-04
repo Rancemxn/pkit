@@ -22,7 +22,7 @@ if check_android():
     os.makedirs(vgmdir, exist_ok=True)
 
     built_libraries = [
-        "vgmstream-cli",
+        "libvgmstream-cli.so",
         "libvgmstream.so",
         "libvorbis_vgm.so",
         "libvorbisfile_vgm.so",
