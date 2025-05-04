@@ -10,6 +10,7 @@ dependencies = [
     "pysmartdl2>=2.0.1",
     "urllib3>=2.4.0",
     "loguru==0.7.*",
+    "PySDL3>=0.9.8b1",
 ]
 requires-python = ">=3.11"
 readme = "README.md"
