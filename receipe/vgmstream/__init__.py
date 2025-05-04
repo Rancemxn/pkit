@@ -7,13 +7,14 @@ import os
 
 class VgmstreamRecipe(Recipe):
     name = "vgmstream"
-    version = "c32951e"
+    version = "c32951e"  # Fix compile without mpg123 version
     url = "https://github.com/vgmstream/vgmstream/archive/c32951e914ab9401c83a6fb3f06f0cc9dc4f5ec3.zip"
 
     depends = ["libpthread"]
 
     patches = ["patches/ffmpeg.patch", "patches/CMakeLists.patch"]
 
+    # Conflict with FFmpeg_bin, depends will save as another filename
     built_libraries = {
         "vgmstream_cli": "./cmake_build/cli",
         "libvgmstream.so": "./cmake_build/src",
@@ -44,6 +45,7 @@ class VgmstreamRecipe(Recipe):
             cmake_toolchain_file = os.path.join(
                 ndk_dir, "build", "cmake", "android.toolchain.cmake"
             )
+
             if "arm64" in arch.arch:
                 arch_flag = "aarch64"
             elif "x86" in arch.arch:
@@ -51,6 +53,7 @@ class VgmstreamRecipe(Recipe):
             else:
                 arch_flag = "arm"
 
+            # Fix pthread link
             fake_libpthread_temp_folder = Recipe.get_recipe(
                 "libpthread", self.ctx
             ).get_build_dir(arch.arch)
@@ -89,6 +92,7 @@ class VgmstreamRecipe(Recipe):
                 "-DUSE_ATRAC9=OFF",
                 "-DUSE_SPEEX=OFF",
                 "-DUSE_CELT=OFF",
+                # FFmpeg compile toolchain
                 f"-DFFMPEG_CROSS_PREFIX={arch.target}",
                 f"-DFFMPEG_ARCH={arch_flag}",
                 f"-DFFMPEG_STRIP={self.ctx.ndk.llvm_strip}",
@@ -103,11 +107,13 @@ class VgmstreamRecipe(Recipe):
                 f"-DCMAKE_EXE_LINKER_FLAGS={env['LDFLAGS']}",
                 f"-DCMAKE_MODULE_LINKER_FLAGS={env['LDFLAGS']}",
                 "-DEMSCRIPTEN=OFF",
+                # Build .so librarys
                 "-DCMAKE_POSITION_INDEPENDENT_CODE=ON",
             ]
 
             shprint(sh.cmake, *cmake_args, _env=env)
 
+            # Make FFmpeg First
             shprint(
                 sh.cmake,
                 "--build",
@@ -119,6 +125,7 @@ class VgmstreamRecipe(Recipe):
                 _env=env,
             )
 
+            # Build Cli
             build_targets = ["libvgmstream_shared", "vgmstream_cli"]
             shprint(
                 sh.cmake,
