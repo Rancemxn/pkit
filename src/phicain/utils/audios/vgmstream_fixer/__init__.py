@@ -14,7 +14,7 @@ if check_android():
 
     app_info = mActivity.getApplicationInfo()
     native_lib_dir: str = app_info.nativeLibraryDir
-    vgm_bin_path = join(native_lib_dir, "vgmstream-cli")
+    vgm_bin_path = join(native_lib_dir, "libvgmstream-cli.so")
     logger.info(f"Found Vgmstream-cli locate in {vgm_bin_path}")
 
     vgmdir = join(mActivity.getFilesDir().getAbsolutePath(), "vgmstream")
@@ -35,7 +35,7 @@ if check_android():
     for lib in built_libraries:
         shutil.copy2(join(native_lib_dir, lib), join(vgmdir, lib))
 
-    vgm_bin_path = join(vgmdir, "vgmstream-cli")
+    vgm_bin_path = join(vgmdir, "libvgmstream-cli.so")
 
     logger.info(f"Move to {vgm_bin_path}")
 

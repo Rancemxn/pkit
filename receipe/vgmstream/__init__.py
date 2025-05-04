@@ -17,7 +17,7 @@ class VgmstreamRecipe(Recipe):
 
     # Conflict with FFmpeg_bin, depends will save as another filename
     built_libraries = {
-        "vgmstream-cli": "./cmake_build",
+        "libvgmstream-cli.so": "./cmake_build",
         "libvgmstream.so": "./cmake_build",
         "libvorbis_vgm.so": "./cmake_build",
         "libvorbisfile_vgm.so": "./cmake_build",
@@ -143,7 +143,7 @@ class VgmstreamRecipe(Recipe):
             shprint(
                 sh.cp,
                 "./cli/vgmstream-cli",
-                "vgmstream-cli",
+                "libvgmstream-cli.so",
             )
             shprint(
                 sh.cp,
