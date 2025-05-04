@@ -17,7 +17,8 @@ if check_android():
     vgm_bin_path = join(native_lib_dir, "vgmstream-cli")
     logger.info(f"Found Vgmstream-cli locate in {vgm_bin_path}")
 
-    vgmdir = join(native_lib_dir, "vgmstream")
+    vgmdir = join(mActivity.getFilesDir().getAbsolutePath(), "vgmstream")
+    shutil.rmtree(vgmdir, ignore_errors=True)
     os.makedirs(vgmdir, exist_ok=True)
 
     built_libraries = [
