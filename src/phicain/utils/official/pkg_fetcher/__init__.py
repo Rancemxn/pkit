@@ -1,7 +1,7 @@
 from loguru import logger
 from pysmartdl2 import SmartDL
 
-from . import taptap
+import taptap
 
 
 def fetch(platform: str = "taptap", name: str = ".", threads: int = 32) -> None | str:
