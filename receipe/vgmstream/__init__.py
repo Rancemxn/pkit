@@ -10,7 +10,7 @@ class VgmstreamRecipe(Recipe):
     version = "c32951e"
     url = "https://github.com/vgmstream/vgmstream/archive/c32951e914ab9401c83a6fb3f06f0cc9dc4f5ec3.zip"
 
-    depends = ["libpthread"]
+    depends = ["libpthread", "ffmpeg_bin"]
 
     patches = ["patches/ffmpeg.patch", "patches/CMakeLists.patch"]
 
@@ -95,11 +95,33 @@ class VgmstreamRecipe(Recipe):
                 f"-DCMAKE_EXE_LINKER_FLAGS={env['LDFLAGS']}",
                 f"-DCMAKE_MODULE_LINKER_FLAGS={env['LDFLAGS']}",
                 "-DEMSCRIPTEN=OFF",
+                "-DCMAKE_POSITION_INDEPENDENT_CODE=ON",
             ]
 
             shprint(sh.cmake, *cmake_args, _env=env)
 
-            shprint(sh.cmake, "--build", ".", "-j", str(cpu_count()), _env=env)
+            shprint(
+                sh.cmake,
+                "--build",
+                ".",
+                "--target",
+                "FFMPEG_MAKE",
+                "-j",
+                str(cpu_count()),
+                _env=env,
+            )
+
+            build_targets = ["libvgmstream_shared", "vgmstream_cli"]
+            shprint(
+                sh.cmake,
+                "--build",
+                ".",
+                "--target",
+                *build_targets,
+                "-j",
+                str(cpu_count()),
+                _env=env,
+            )
 
 
 recipe = VgmstreamRecipe()

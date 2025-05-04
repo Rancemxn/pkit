@@ -1,49 +1,36 @@
 --- vgmstream/src/CMakeLists.txt	2025-05-03 20:45:03.824322500 +0800
 +++ vgmstream/src/CMakeLists.txt	2025-05-03 20:46:28.962003000 +0800
-@@ -1,3 +1,6 @@
-+# This CMakeLists.txt defines the libvgmstream static and shared libraries
-+
-+# Collect source files and header files from subdirectories
- file(GLOB BASE_HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/base/*.h")
- file(GLOB BASE_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/base/*.c")
- file(GLOB CODING_HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/coding/*.h")
-@@ -10,12 +13,17 @@
+@@ -10,12 +10,14 @@
  file(GLOB META_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/meta/*.c")
  file(GLOB UTIL_HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/util/*.h")
  file(GLOB UTIL_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/util/*.c")
 +
-+# External headers directory set in the top-level CMakeLists.txt
  set(EXT_HEADERS
 -	${VGM_SOURCE_DIR}/ext_includes/pstdint.h)
 +	${VGM_SOURCE_DIR}/ext_includes/pstdint.h) # Assuming pstdint.h is always needed from ext_includes
 +
-+# Headers and sources in the current directory (src/)
  file(GLOB MAIN_HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
  file(GLOB MAIN_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/*.c")
  
 -# Setup source groups, mainly for Visual Studio
 +
-+# Setup source groups, mainly for Visual Studio (doesn't affect compilation)
  source_group("Header Files\\base" FILES ${BASE_HEADERS})
  source_group("Header Files\\coding" FILES ${CODING_HEADERS})
  source_group("Header Files\\coding\\libs" FILES ${CLIBS_HEADERS})
-@@ -31,6 +39,8 @@
+@@ -31,6 +33,7 @@
  source_group("Source Files\\meta" FILES ${META_SOURCES})
  source_group("Source Files\\util" FILES ${UTIL_SOURCES})
  
 +
-+# Combine all sources for the library targets
  set(libvgmstream_sources
  	${BASE_HEADERS}
  	${BASE_SOURCES}
-@@ -48,45 +58,127 @@
+@@ -48,45 +51,75 @@
  	${MAIN_HEADERS}
  	${MAIN_SOURCES}
  )
 -# Set up the proper include directories
 +
-+# Set up the proper include directories for compilation
-+# Add the src/ directory itself and the external includes directory
  set(libvgmstream_includes
 -	${VGM_SOURCE_DIR}/ext_includes
 -	base
@@ -51,134 +38,82 @@
 -	layout
 -	meta
 -	util
-+	${CMAKE_CURRENT_SOURCE_DIR}      # Include src/ itself for headers like "coding/coding.h" or "../util/endianness.h"
-+	${VGM_SOURCE_DIR}/ext_includes   # Include the external includes directory
-+	# You can optionally add specific subdirs for clarity, but including src/ should be enough
-+	# ${CMAKE_CURRENT_SOURCE_DIR}/base
-+	# ${CMAKE_CURRENT_SOURCE_DIR}/coding
-+	# ${CMAKE_CURRENT_SOURCE_DIR}/layout
-+	# ${CMAKE_CURRENT_SOURCE_DIR}/meta
-+	# ${CMAKE_CURRENT_SOURCE_DIR}/util
++	${CMAKE_CURRENT_SOURCE_DIR}
++	${VGM_SOURCE_DIR}/ext_includes 
  )
  
 -# libvgmstream.a
 +
-+# libvgmstream.a (Static Library Target)
  add_library(libvgmstream STATIC ${libvgmstream_sources})
--set_target_properties(libvgmstream PROPERTIES PREFIX "")
-+set_target_properties(libvgmstream PROPERTIES PREFIX "") # Set output filename prefix (lib)
+ set_target_properties(libvgmstream PROPERTIES PREFIX "")
++prefix (lib)
  
-+# Add build dependency on FFmpeg if USE_FFMPEG is ON and FFmpeg is compiled internally
  if(USE_FFMPEG AND FFMPEG_COMPILE)
 -	add_dependencies(libvgmstream avcodec)
-+	# This ensures FFmpeg is built before libvgmstream
-+	# Note: This adds a build dependency, not a link dependency
-+	add_dependencies(libvgmstream avcodec) # Assuming avcodec target represents the internal FFmpeg build
++	add_dependencies(libvgmstream FFMPEG_MAKE) 
  endif()
  
-+# Standard setup for the static library target
  setup_target(libvgmstream)
  
-+# Apply include directories to the static library target
  target_include_directories(libvgmstream PRIVATE ${libvgmstream_includes})
  
 -# libvgmstream.so
-+# Link the static library to its dependencies (if any are needed at this stage)
-+# Based on the vgmstream-cli link line, libvgmstream.a seems to need linking
-+# to FFmpeg static libraries. This linkage should be defined here.
 +if(USE_FFMPEG AND FFMPEG_COMPILE)
-+    # Get the path to the FFmpeg internal install lib directory (for static libs)
-+    # FFMPEG_BIN points to cmake_build/dependencies/ffmpeg
 +    set(FFMPEG_STATIC_LIB_DIR ${FFMPEG_BIN}/bin/usr/local/lib)
 +
-+    # Add FFmpeg static lib directory to the linker search path for libvgmstream
 +    target_link_directories(libvgmstream PRIVATE ${FFMPEG_STATIC_LIB_DIR})
-+
-+    # Link to FFmpeg static libraries by name
-+    # The names should correspond to the targets imported/built by FetchDependency(FFMPEG)
-+    # in cmake/dependencies/ffmpeg.cmake (avutil, avformat, swresample, avcodec)
-+    # These imported targets link to the .a files based on FFMPEG_LINK_PATH
 +    target_link_libraries(libvgmstream
 +        avutil avformat swresample avcodec
-+        # Also link to other static dependencies if needed by libvgmstream.a
-+        # e.g., ogg, vorbis, vorbisfile if linked statically
 +    )
 +endif()
-+# Link to system libraries needed by the static library (like libm)
 +target_link_libraries(libvgmstream
-+    m # Math library
++    m
 +)
 +
 +
-+# libvgmstream.so (Shared Library Target)
-+# Only build on non-Emscripten platforms
  if(NOT EMSCRIPTEN)
 -	add_library(libvgmstream_shared SHARED EXCLUDE_FROM_ALL ${libvgmstream_sources})
-+	# Define the shared library target
-+	# REMOVED: EXCLUDE_FROM_ALL - ensures this target is built by default
 +	add_library(libvgmstream_shared SHARED ${libvgmstream_sources})
 +
-+	# Set properties for the shared library
  	set_target_properties(libvgmstream_shared PROPERTIES
 -		PREFIX ""
--		OUTPUT_NAME "libvgmstream"
-+		PREFIX ""            # Set output filename prefix (lib)
-+		OUTPUT_NAME "libvgmstream" # Set the base output filename (libvgmstream.so)
++		PREFIX ""  
+ 		OUTPUT_NAME "libvgmstream"
  	)
 -	
 +
-+	# Add build dependency on FFmpeg if USE_FFMPEG is ON and FFmpeg is compiled internally
  	if(USE_FFMPEG AND FFMPEG_COMPILE)
 -		add_dependencies(libvgmstream_shared avcodec)
-+		# This ensures FFmpeg is built before libvgmstream_shared
-+		# Note: This adds a build dependency, not a link dependency
-+		add_dependencies(libvgmstream_shared avcodec) # Assuming avcodec target represents the internal FFmpeg build
++		add_dependencies(libvgmstream_shared FFMPEG_MAKE) # Assuming avcodec target represents the internal FFmpeg build
  	endif()
 -	
 -	setup_target(libvgmstream_shared TRUE)
 -	
 +
-+	# Link libvgmstream_shared to its dependencies (including FFmpeg shared libraries)
-+
-+	# Get the path to the FFmpeg internal install lib directory (for shared libs)
-+	# FFMPEG_BIN points to cmake_build/dependencies/ffmpeg
 +	set(FFMPEG_SHARED_LIB_DIR ${FFMPEG_BIN}/bin/usr/local/lib)
 +
-+	# Add FFmpeg shared lib directory to the linker search path for libvgmstream_shared
-+	# This is crucial for finding FFmpeg shared libraries like libavutil.so
 +	target_link_directories(libvgmstream_shared PRIVATE ${FFMPEG_SHARED_LIB_DIR})
 +
-+	# Link to FFmpeg shared libraries by name
-+	# These library names correspond to the shared libraries built by FFmpeg
 +	target_link_libraries(libvgmstream_shared
 +		avutil avformat avcodec swresample # Link to FFmpeg shared libraries by name
 +	)
 +
-+    # Link to other dependencies used by libvgmstream_shared
-+    # Based on vgmstream-cli link line, needs ogg and vorbis shared libs
 +    target_link_libraries(libvgmstream_shared
 +        ogg vorbis vorbisfile # Link to Ogg and Vorbis shared libraries by name
 +    )
 +
-+    # Link to system libraries needed by the shared library
-+    # libm, pthread, atomic are often needed
-+    # The toolchain file might handle some implicitly, but explicit can be safer
 +    target_link_libraries(libvgmstream_shared
-+        m        # Math library
-+        pthread  # POSIX threads (needed on many systems, handled by p4a symlink on Android)
-+        atomic   # Atomic operations
-+        # c      # C standard library (usually implicit)
++        m
++        pthread
++        atomic
 +    )
 +
 +
-+	# Standard setup for the shared library target
 +	setup_target(libvgmstream_shared TRUE) # TRUE indicates it's a shared library
 +
-+	# Apply include directories to the shared library target
  	target_include_directories(libvgmstream_shared PRIVATE ${libvgmstream_includes})
 -	
 +
-+	# Set release link flags (optional, but was in original)
  	if(CMAKE_CXX_COMPILER_ID MATCHES Clang OR CMAKE_CXX_COMPILER_ID MATCHES GNU)
  		set_target_properties(libvgmstream_shared PROPERTIES LINK_FLAGS_RELEASE -s)
  	endif()
