@@ -16,15 +16,15 @@ class VgmstreamRecipe(Recipe):
 
     # Conflict with FFmpeg_bin, depends will save as another filename
     built_libraries = {
-        "vgmstream_cli": "./cmake_build/cli",
-        "libvgmstream.so": "./cmake_build/src",
-        "libvorbis_vgm.so": "./cmake_build/dependencies/vorbis/lib/libvorbis.so",
-        "libvorbisfile_vgm.so": "./cmake_build/dependencies/vorbis/lib/libvorbisfile.so",
-        "libogg_vgm.so": "./cmake_build/dependencies/ogg/libogg.so",
-        "libavcodec_vgm.so": "./cmake_build/dependencies/ffmpeg/bin/usr/local/lib/libavcodec.so",
-        "libavformat_vgm.so": "./cmake_build/dependencies/ffmpeg/bin/usr/local/lib/libavformat.so",
-        "libavutil_vgm.so": "./cmake_build/dependencies/ffmpeg/bin/usr/local/lib/libavutil.so",
-        "libswresample_vgm.so": "./cmake_build/dependencies/ffmpeg/bin/usr/local/lib/libswresample.so",
+        "vgmstream_cli": ".",
+        "libvgmstream.so": ".",
+        "libvorbis_vgm.so": ".",
+        "libvorbisfile_vgm.so": ".",
+        "libogg_vgm.so": ".",
+        "libavcodec_vgm.so": ".",
+        "libavformat_vgm.so": ".",
+        "libavutil_vgm.so": ".",
+        "libswresample_vgm.so": ".",
     }
 
     def get_recipe_env(self, arch, **kwargs):
@@ -136,6 +136,43 @@ class VgmstreamRecipe(Recipe):
                 "-j",
                 str(cpu_count()),
                 _env=env,
+            )
+
+            # Rename libs to avoid conflicts
+            shprint(
+                sh.cp,
+                "vgmstream_cli",
+                "./cmake_build/cli/vgmstream_cli/vgmstream_cli",
+            )
+            shprint(
+                sh.cp,
+                "libvgmstream.so",
+                "./cmake_build/src/libvgmstream.so/libvgmstream.so",
+            )
+            shprint(
+                sh.cp,
+                "libogg_vgm.so",
+                "./cmake_build/dependencies/ogg/libogg.so",
+            )
+            shprint(
+                sh.cp,
+                "libavcodec_vgm.so",
+                "./cmake_build/dependencies/ffmpeg/bin/usr/local/lib/libavcodec.so",
+            )
+            shprint(
+                sh.cp,
+                "libavformat_vgm.so",
+                "./cmake_build/dependencies/ffmpeg/bin/usr/local/lib/libavformat.so",
+            )
+            shprint(
+                sh.cp,
+                "libavutil_vgm.so",
+                "./cmake_build/dependencies/ffmpeg/bin/usr/local/lib/libavutil.so",
+            )
+            shprint(
+                sh.cp,
+                "libswresample_vgm.so",
+                "./cmake_build/dependencies/ffmpeg/bin/usr/local/lib/libswresample.so",
             )
 
 
