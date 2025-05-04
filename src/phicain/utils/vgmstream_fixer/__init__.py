@@ -33,7 +33,7 @@ if check_android():
         "libswresample_vgm.so",
     ]
     for lib in built_libraries:
-        shutil.move(lib, join(vgmdir, lib))
+        shutil.copy2(lib, join(vgmdir, lib))
 
     vgm_bin_path = join(vgmdir, "vgmstream-cli")
 
@@ -50,5 +50,3 @@ if check_android():
 logger.info("Test Vgmstream")
 
 cmd([vgm_bin_path])
-
-cmd([vgm_bin_path, "-version"])
