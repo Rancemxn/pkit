@@ -16,15 +16,15 @@ class VgmstreamRecipe(Recipe):
 
     # Conflict with FFmpeg_bin, depends will save as another filename
     built_libraries = {
-        "vgmstream_cli": ".",
-        "libvgmstream.so": ".",
-        "libvorbis_vgm.so": ".",
-        "libvorbisfile_vgm.so": ".",
-        "libogg_vgm.so": ".",
-        "libavcodec_vgm.so": ".",
-        "libavformat_vgm.so": ".",
-        "libavutil_vgm.so": ".",
-        "libswresample_vgm.so": ".",
+        "vgmstream_cli": "./cmake_build",
+        "libvgmstream.so": "./cmake_build",
+        "libvorbis_vgm.so": "./cmake_build",
+        "libvorbisfile_vgm.so": "./cmake_build",
+        "libogg_vgm.so": "./cmake_build",
+        "libavcodec_vgm.so": "./cmake_build",
+        "libavformat_vgm.so": "./cmake_build",
+        "libavutil_vgm.so": "./cmake_build",
+        "libswresample_vgm.so": "./cmake_build",
     }
 
     def get_recipe_env(self, arch, **kwargs):
@@ -141,37 +141,47 @@ class VgmstreamRecipe(Recipe):
             # Rename libs to avoid conflicts
             shprint(
                 sh.cp,
-                "./cmake_build/cli/vgmstream_cli",
+                "./cli/vgmstream_cli",
                 "vgmstream_cli",
             )
             shprint(
                 sh.cp,
-                "./cmake_build/src/libvgmstream.so",
+                "./src/libvgmstream.so",
                 "libvgmstream.so",
             )
             shprint(
                 sh.cp,
-                "./cmake_build/dependencies/ogg/libogg.so",
+                "./dependencies/ogg/libogg.so",
                 "libogg_vgm.so",
             )
             shprint(
                 sh.cp,
-                "./cmake_build/dependencies/ffmpeg/bin/usr/local/lib/libavcodec.so",
+                "./dependencies/ffmpeg/bin/usr/local/lib/libavcodec.so",
                 "libavcodec_vgm.so",
             )
             shprint(
                 sh.cp,
-                "./cmake_build/dependencies/ffmpeg/bin/usr/local/lib/libavformat.so",
+                "./dependencies/ffmpeg/bin/usr/local/lib/libavformat.so",
                 "libavformat_vgm.so",
             )
             shprint(
                 sh.cp,
-                "./cmake_build/dependencies/ffmpeg/bin/usr/local/lib/libavutil.so",
+                "./dependencies/ffmpeg/bin/usr/local/lib/libavutil.so",
                 "libavutil_vgm.so",
             )
             shprint(
                 sh.cp,
-                "./cmake_build/dependencies/ffmpeg/bin/usr/local/lib/libswresample.so",
+                "./dependencies/vorbis/lib/libvorbis.so",
+                "libvorbis_vgm.so",
+            )
+            shprint(
+                sh.cp,
+                "./dependencies/vorbis/lib/libvorbisfile.so",
+                "libvorbisfile_vgm.so",
+            )
+            shprint(
+                sh.cp,
+                "./dependencies/ffmpeg/bin/usr/local/lib/libswresample.so",
                 "libswresample_vgm.so",
             )
 
