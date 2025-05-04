@@ -52,8 +52,6 @@ if check_android():
 
     logger.info("FFmpeg Patch Done.")
 
-logger.info("Test FFmpeg with '--version'")
+logger.info("Test FFmpeg with")
 
 cmd(["ffmpeg"])
-
-cmd(["ffmpeg", "--version"])
