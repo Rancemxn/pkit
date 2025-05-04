@@ -141,38 +141,38 @@ class VgmstreamRecipe(Recipe):
             # Rename libs to avoid conflicts
             shprint(
                 sh.cp,
-                "vgmstream_cli",
                 "./cmake_build/cli/vgmstream-cli",
+                "vgmstream_cli",
             )
             shprint(
                 sh.cp,
-                "libvgmstream.so",
                 "./cmake_build/src/libvgmstream.so",
+                "libvgmstream.so",
             )
             shprint(
                 sh.cp,
-                "libogg_vgm.so",
                 "./cmake_build/dependencies/ogg/libogg.so",
+                "libogg_vgm.so",
             )
             shprint(
                 sh.cp,
-                "libavcodec_vgm.so",
                 "./cmake_build/dependencies/ffmpeg/bin/usr/local/lib/libavcodec.so",
+                "libavcodec_vgm.so",
             )
             shprint(
                 sh.cp,
-                "libavformat_vgm.so",
                 "./cmake_build/dependencies/ffmpeg/bin/usr/local/lib/libavformat.so",
+                "libavformat_vgm.so",
             )
             shprint(
                 sh.cp,
-                "libavutil_vgm.so",
                 "./cmake_build/dependencies/ffmpeg/bin/usr/local/lib/libavutil.so",
+                "libavutil_vgm.so",
             )
             shprint(
                 sh.cp,
-                "libswresample_vgm.so",
                 "./cmake_build/dependencies/ffmpeg/bin/usr/local/lib/libswresample.so",
+                "libswresample_vgm.so",
             )
 
 
