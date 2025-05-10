@@ -31,7 +31,7 @@ jobs:
     - name: Setup Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.13'
+        python-version: '3.11.5'
     - name: Setup Java
       uses: actions/setup-java@v4
       with:
@@ -39,6 +39,11 @@ jobs:
         java-version: '17'
     - name: Build Application
       run: |
+        pip3 install --upgrade pip
+        pip3 install --user virtualenv
+        export PATH="$PATH:$HOME/.local/bin"
+        python3 -m virtualenv venv
+        source venv/bin/activate
         pip install wheel setuptools Cython==0.29.33 buildozer
         buildozer android debug
     - name: Upload Artifact

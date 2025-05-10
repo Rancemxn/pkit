@@ -23,7 +23,7 @@ fullscreen = 1
 
 android.permissions = INTERNET, WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE
 
-android.api = 33
+android.api = 29
 
 android.minapi = 29
 
