@@ -423,7 +423,7 @@ if __name__ == "__main__":
     RealtimeOutputApp().run()
     from plyer import filechooser
 
-    path = filechooser.choose_dir(title="请选择保存文件夹...")
+    path = filechooser.choose_dir(title="请选择保存文件夹...")[0]
     import shutil
 
     shutil.copytree("unpack-result", path, dirs_exist_ok=True)
