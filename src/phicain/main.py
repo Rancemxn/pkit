@@ -15,6 +15,7 @@ import threading
 import sys
 import io
 from contextlib import redirect_stdout, redirect_stderr
+from plyer import filechooser
 import traceback
 
 import unpack as t
@@ -170,6 +171,13 @@ class RealtimeOutputApp(App):
             font_name="HYSongYunLangHeiW-1.ttf",
         )
         self.button.bind(on_press=self.start_task_and_capture_output)
+        self.bcp = Button(
+            text="复制",
+            size_hint_y=None,
+            height="48dp",
+            font_name="HYSongYunLangHeiW-1.ttf",
+        )
+        self.bcp.bind(on_press=self.bcppp)
 
         self.output_text_area = TextInput(
             text="点击按钮开始...\n",
@@ -179,6 +187,7 @@ class RealtimeOutputApp(App):
         )
         self.output_text_area.markup = True
         layout.add_widget(self.button)
+        layout.add_widget(self.bcp)
         layout.add_widget(self.output_text_area)
         return layout
 
@@ -305,12 +314,15 @@ class RealtimeOutputApp(App):
     def enable_button_on_main_thread(self, dt):
         self.button.disabled = False
 
+    def bcppp(self, *args, **kwargs):
+        try:
+            path = filechooser.choose_dir(title="请选择保存文件夹...")[0]
+            import shutil
+
+            shutil.copytree("unpack-result", path, dirs_exist_ok=True)
+        except:
+            pass
+
 
 if __name__ == "__main__":
     RealtimeOutputApp().run()
-    from plyer import filechooser
-
-    path = filechooser.choose_dir(title="请选择保存文件夹...")[0]
-    import shutil
-
-    shutil.copytree("unpack-result", path, dirs_exist_ok=True)
