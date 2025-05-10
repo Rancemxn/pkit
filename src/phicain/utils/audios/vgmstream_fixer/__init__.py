@@ -1,5 +1,6 @@
 import os
 import shutil
+import subprocess
 from os.path import join
 from loguru import logger
 
@@ -33,9 +34,7 @@ if android():
         "libswresample_vgm.so",
     ]
     for lib in built_libraries:
-        shutil.copy2(
-            join(native_lib_dir, lib), join(vgmdir, lib.replace("_vgm", ""))
-        )
+        shutil.copy2(join(native_lib_dir, lib), join(vgmdir, lib.replace("_vgm", "")))
 
     vgm_bin_path = join(vgmdir, "libvgmstream-cli.so")
 
@@ -45,12 +44,23 @@ if android():
         vgmdir + os.pathsep + os.environ.get("LD_LIBRARY_PATH", "")
     )
 
-    logger.debug(
-        f"LD_LIBRARY_PATH update to: {os.environ.get('LD_LIBRARY_PATH', '')}"
-    )
+    logger.debug(f"LD_LIBRARY_PATH update to: {os.environ.get('LD_LIBRARY_PATH', '')}")
 
     logger.info("LD_LIBRARY_PATH Patch Done.")
 
 logger.info("Test Vgmstream")
 
 cmd([vgm_bin_path, "-h"])
+
+
+def run(command: list) -> None:
+    command = [
+        vgm_bin_path,
+    ] + command
+    logger.info(f"Received Vgmstream Task:{command}")
+    subprocess.run(
+        args=command,
+        capture_output=True,
+        text=True,
+        check=False,
+    )

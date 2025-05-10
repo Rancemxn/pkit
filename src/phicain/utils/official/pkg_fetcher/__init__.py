@@ -3,7 +3,7 @@ from pathlib import Path
 from loguru import logger
 from pysmartdl2 import SmartDL
 
-import taptap
+from . import taptap
 
 
 def fetch(

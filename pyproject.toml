@@ -11,6 +11,9 @@ dependencies = [
     "urllib3>=2.4.0",
     "loguru==0.7.*",
     "PySDL3>=0.9.8b1",
+    "kivy>=2.3.1",
+    "git+https://github.com/kivymd/KivyMD",
+    "UnityPy>=1.22.2",
 ]
 requires-python = ">=3.11"
 readme = "README.md"
@@ -44,3 +47,7 @@ log_cli_date_format = "%Y-%m-%d %H:%M:%S"
 
 [tool.pdm.scripts]
 fetchpkg = "python src/phicain/utils/official/pkg_fetcher/__init__.py"
+
+main = "python src/phicain/main.py"
+
+unpack = "python src/phicain/tool-unpack.py"

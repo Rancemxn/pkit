@@ -7,7 +7,7 @@ package.domain = org.Rancemxn
 
 source.dir = src/phicain
 
-source.include_exts = py
+source.include_exts = py, ttf
 
 source.exclude_dirs = __pycache__
 
@@ -15,7 +15,7 @@ version.regex = __version__ = ['"](.*)['"]
 
 version.filename = %(source.dir)s/__init__.py
 
-requirements = python3,hostpython3,sdl3,android,ffmpeg_bin,pyjnius,requests,pysmartdl2,urllib3,loguru,vgmstream
+requirements = python3,hostpython3,kivy,android,ffmpeg_bin,pyjnius,requests,pysmartdl2,urllib3,loguru,vgmstream,https://github.com/kivymd/KivyMD/archive/master.zip,materialyoucolor,exceptiongroup,asyncgui,asynckivy,
 
 orientation = landscape, landscape-reverse
 
@@ -41,7 +41,7 @@ android.allow_backup = True
 
 p4a.local_recipes = receipe
 
-p4a.bootstrap = sdl3
+p4a.bootstrap = sdl2
 
 p4a.fork = Rancemxn
 
