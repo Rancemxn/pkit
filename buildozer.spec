@@ -43,9 +43,7 @@ p4a.local_recipes = receipe
 
 p4a.bootstrap = sdl2
 
-p4a.fork = Rancemxn
 
-p4a.branch = develop
 
 p4a.url = https://github.com/PitRc47/python-for-android
 
