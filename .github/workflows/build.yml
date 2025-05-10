@@ -39,7 +39,7 @@ jobs:
         java-version: '17'
     - name: Build Application
       run: |
-        pip install wheel setuptools Cython buildozer
+        pip install wheel setuptools Cython==0.29.33 buildozer
         buildozer android debug
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
