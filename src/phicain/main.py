@@ -319,7 +319,16 @@ class RealtimeOutputApp(App):
             path = filechooser.choose_dir(title="请选择保存文件夹...")[0]
             import shutil
 
+            Clock.schedule_once(
+                lambda dt: self.update_output_on_main_thread(f"目标文件夹:{path}\n")
+            )
+            Clock.schedule_once(
+                lambda dt: self.update_output_on_main_thread(
+                    "正在复制, 应用可能会无响应\n"
+                )
+            )
             shutil.copytree("unpack-result", path, dirs_exist_ok=True)
+            Clock.schedule_once(lambda dt: self.update_output_on_main_thread("完成\n"))
         except:
             pass
 
