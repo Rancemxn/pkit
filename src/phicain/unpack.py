@@ -356,10 +356,9 @@ def generate_resources(need_otherillu: bool = False, need_otherres: bool = False
 
     table = pgr_catalog.decrypt(catalog)
 
-    type res_table_item = tuple[str, str]
-    player_res_table: list[res_table_item] = []
-    avatar_res_table: list[res_table_item] = []
-    other_res_table: list[res_table_item] = []
+    player_res_table = []
+    avatar_res_table = []
+    other_res_table = []
 
     for i in table:
         if isinstance(i[0], int):
