@@ -315,7 +315,7 @@ class RealtimeOutputApp(App):
     def enable_button_on_main_thread(self, dt):
         self.button.disabled = False
 
-    def p(self):
+    def p(self, path):
         shutil.copytree("unpack-result", path, dirs_exist_ok=True)
         Clock.schedule_once(lambda dt: self.update_output_on_main_thread("完成\n"))
 
@@ -329,7 +329,7 @@ class RealtimeOutputApp(App):
             Clock.schedule_once(
                 lambda dt: self.update_output_on_main_thread("正在复制, 请勿离开应用\n")
             )
-            threading.Thread(target=self.p, daemon=True).start()
+            threading.Thread(target=self.p, args=(path,), daemon=True).start()
         except:
             pass
 
