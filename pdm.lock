@@ -5,7 +5,7 @@
 groups = ["default", "dev"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:5d33784637dda56d7f2a6b81ef7e825096443bee662ac251e113dab6017fcb48"
+content_hash = "sha256:f6e554960e69921800867a9a5ab6130f95380b57edc40602e3bf27cabbe3fd5f"
 
 [[metadata.targets]]
 requires_python = "==3.13.*"
@@ -478,7 +478,7 @@ name = "kivymd"
 version = "2.0.1.dev0"
 requires_python = ">=3.7"
 git = "https://github.com/kivymd/KivyMD"
-revision = "27cdf4c31a2d2f88c07ef6eec2075269de058ae8"
+revision = "4223be468c5c8e33d274277a1f0eee6369b904a5"
 summary = "Set of widgets for Kivy inspired by Google's Material Design"
 groups = ["default"]
 marker = "python_version == \"3.13\""
@@ -705,6 +705,17 @@ marker = "python_version == \"3.13\""
 files = [
     {file = "pluggy-1.5.0-py3-none-any.whl", hash = "sha256:44e1ad92c8ca002de6377e165f3e0f1be63266ab4d554740532335b9d75ea669"},
     {file = "pluggy-1.5.0.tar.gz", hash = "sha256:2cffa88e94fdc978c4c574f15f9e59b7f4201d439195c3715ca9e2486f1d0cf1"},
+]
+
+[[package]]
+name = "plyer"
+version = "2.1.0"
+summary = "Platform-independent wrapper for platform-dependent APIs"
+groups = ["default"]
+marker = "python_version == \"3.13\""
+files = [
+    {file = "plyer-2.1.0-py2.py3-none-any.whl", hash = "sha256:1b1772060df8b3045ed4f08231690ec8f7de30f5a004aa1724665a9074eed113"},
+    {file = "plyer-2.1.0.tar.gz", hash = "sha256:65b7dfb7e11e07af37a8487eb2aa69524276ef70dad500b07228ce64736baa61"},
 ]
 
 [[package]]
