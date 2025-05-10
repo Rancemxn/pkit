@@ -7,7 +7,7 @@ package.domain = org.Rancemxn
 
 source.dir = src/phicain
 
-source.include_exts = py, ttf
+source.include_exts = py, ttf, json
 
 source.exclude_dirs = __pycache__
 
