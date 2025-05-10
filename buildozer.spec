@@ -15,7 +15,7 @@ version.regex = __version__ = ['"](.*)['"]
 
 version.filename = %(source.dir)s/__init__.py
 
-requirements = python3,hostpython3,kivy,android,ffmpeg_bin,pyjnius,requests,pysmartdl2,urllib3,loguru,vgmstream,plyer
+requirements = python3,hostpython3,kivy,android,ffmpeg_bin,pyjnius,requests,pysmartdl2,urllib3,loguru,vgmstream
 
 orientation = landscape, landscape-reverse
 
