@@ -15,6 +15,14 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y \
             ant \
+            liblzma-dev \
+            libsqlite3-dev \
+            sqlite3 \
+            bzip2 \
+            libbz2-dev \
+            openssl \
+            libgdbm-dev \
+            libgdbm-compat-dev \
             autoconf \
             automake \
             ccache \
@@ -24,6 +32,13 @@ jobs:
             libltdl-dev \
             libtool \
             libssl-dev \
+            libreadline-dev \
+            uuid-dev \
+            zip \
+            unzip \
+            openjdk-17-jdk \
+            cmake \
+            libogg-dev \
             patch \
             pkg-config \
             zlib1g-dev \

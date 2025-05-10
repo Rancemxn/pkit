@@ -27,7 +27,7 @@ android.api = 29
 
 android.minapi = 29
 
-android.ndk = 25b
+android.ndk = 25c
 
 android.ndk_api = 29
 
@@ -46,6 +46,10 @@ p4a.bootstrap = sdl2
 p4a.fork = Rancemxn
 
 p4a.branch = develop
+
+p4a.url = https://github.com/PitRc47/python-for-android
+
+p4a.branch = main
 
 [buildozer]
 log_level = 2
