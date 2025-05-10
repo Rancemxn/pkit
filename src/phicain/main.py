@@ -14,6 +14,7 @@ from kivy.clock import Clock
 import threading
 import sys
 import io
+import shutil
 from contextlib import redirect_stdout, redirect_stderr
 from plyer import filechooser
 import traceback
@@ -314,21 +315,21 @@ class RealtimeOutputApp(App):
     def enable_button_on_main_thread(self, dt):
         self.button.disabled = False
 
+    def p(self):
+        shutil.copytree("unpack-result", path, dirs_exist_ok=True)
+        Clock.schedule_once(lambda dt: self.update_output_on_main_thread("完成\n"))
+
     def bcppp(self, *args, **kwargs):
         try:
             path = filechooser.choose_dir(title="请选择保存文件夹...")[0]
-            import shutil
 
             Clock.schedule_once(
                 lambda dt: self.update_output_on_main_thread(f"目标文件夹:{path}\n")
             )
             Clock.schedule_once(
-                lambda dt: self.update_output_on_main_thread(
-                    "正在复制, 应用可能会无响应\n"
-                )
+                lambda dt: self.update_output_on_main_thread("正在复制, 请勿离开应用\n")
             )
-            shutil.copytree("unpack-result", path, dirs_exist_ok=True)
-            Clock.schedule_once(lambda dt: self.update_output_on_main_thread("完成\n"))
+            threading.Thread(target=self.p, daemon=True).start()
         except:
             pass
 
