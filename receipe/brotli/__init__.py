@@ -8,9 +8,9 @@ class BrotliRecipe(PythonRecipe):
 
     name = "brotli"
 
-    depends = ["python3", "setuptools"]
+    depends = ["setuptools"]
 
-    # patches = ["patches/setup.patch"]
+    patches = ["patches/setup.patch"]
 
     hostpython_prerequisites = [
         "setuptools",
