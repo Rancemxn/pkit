@@ -1,8 +1,4 @@
-from pythonforandroid.recipe import PythonRecipe
-from pythonforandroid.logger import shprint, info
-from pythonforandroid.util import current_directory
-import sh
-import os
+from pythonforandroid.recipe import PythonRecipe  # type: ignore
 
 
 class BrotliRecipe(PythonRecipe):
@@ -18,8 +14,7 @@ class BrotliRecipe(PythonRecipe):
     install_in_hostpython = False
 
     def build_arch(self, arch):
-        info(f"Building brotli for {arch.arch}")
-        env = self.get_recipe_env(arch)
+        self.get_recipe_env(arch)
 
         super().build_arch(arch)
 
