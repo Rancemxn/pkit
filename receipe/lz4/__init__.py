@@ -22,6 +22,7 @@ class Lz4Recipe(PythonRecipe):
 
     def get_recipe_env(self, arch=None, with_flags_in_cc=True):
         env = super().get_recipe_env(arch, with_flags_in_cc)
+        env["SETUPTOOLS_SCM_PRETEND_VERSION_FOR_LZ4"] = self.version
         env["PYLZ4_USE_SYSTEM_LZ4"] = "0"
         return env
 
