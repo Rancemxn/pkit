@@ -10,15 +10,13 @@ class BrotliRecipe(PythonRecipe):
 
     depends = ["python3", "setuptools"]
 
-    patches = ["patches/setup.patch"]
+    # patches = ["patches/setup.patch"]
 
     hostpython_prerequisites = [
         "setuptools",
         "wheel",
         "pip",
     ]
-
-    source_subdir = "python"
 
     call_hostpython_via_targetpython = False
 
