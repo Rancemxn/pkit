@@ -12,19 +12,11 @@ class BrotliRecipe(PythonRecipe):
 
     patches = ["patches/setup.patch"]
 
-    hostpython_prerequisites = [
-        "setuptools",
-        "wheel",
-        "pip",
-    ]
-
     call_hostpython_via_targetpython = False
 
     install_in_hostpython = False
 
     def build_arch(self, arch):
-        self.get_recipe_env(arch)
-
         super().build_arch(arch)
 
 

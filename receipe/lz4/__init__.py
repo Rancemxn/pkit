@@ -18,8 +18,5 @@ class Lz4Recipe(PythonRecipe):
         env["PYLZ4_USE_SYSTEM_LZ4"] = "0"
         return env
 
-    def build_arch(self, arch):
-        super().build_arch(arch)
-
 
 recipe = Lz4Recipe()
