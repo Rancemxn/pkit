@@ -17,7 +17,7 @@ class BrotliRecipe(PythonRecipe):
         "setuptools_scm",
         "pip",
     ]
-
+    source_subdir = "python"
     call_hostpython_via_targetpython = False
     install_in_hostpython = False
 
