@@ -43,7 +43,8 @@ jobs:
             pkg-config \
             zlib1g-dev \
             libncurses-dev \
-            gettext 
+            gettext \
+            autopoint
     - name: Setup Python
       uses: actions/setup-python@v5
       with:
