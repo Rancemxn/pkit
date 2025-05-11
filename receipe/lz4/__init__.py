@@ -7,15 +7,7 @@ class Lz4Recipe(PythonRecipe):
 
     name = "lz4"
 
-    depends = ["python3", "setuptools"]
-
-    hostpython_prerequisites = [
-        "setuptools",
-        "wheel",
-        "pkgconfig",
-        "setuptools_scm",
-        "pip",
-    ]
+    depends = ["setuptools"]
 
     call_hostpython_via_targetpython = False
     install_in_hostpython = False
