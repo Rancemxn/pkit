@@ -42,7 +42,8 @@ jobs:
             patch \
             pkg-config \
             zlib1g-dev \
-            libncurses-dev
+            libncurses-dev \
+            gettext 
     - name: Setup Python
       uses: actions/setup-python@v5
       with:
