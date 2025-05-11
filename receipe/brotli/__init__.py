@@ -10,6 +10,8 @@ class BrotliRecipe(PythonRecipe):
 
     depends = ["python3", "setuptools"]
 
+    patches = ["patches/setup.patch"]
+
     hostpython_prerequisites = [
         "setuptools",
         "wheel",
