@@ -15,7 +15,7 @@ version.regex = __version__ = ['"](.*)['"]
 
 version.filename = %(source.dir)s/__init__.py
 
-requirements = python3,hostpython3,Pillow,kivy,android
+requirements = Cython==0.29.33,Pillow,kivy,android
 
 orientation = landscape, landscape-reverse
 
