@@ -48,7 +48,7 @@ jobs:
     - name: Setup Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.11.5'
+        python-version: '3.11.10'
     - name: Setup Java
       uses: actions/setup-java@v4
       with:
