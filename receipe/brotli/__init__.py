@@ -13,12 +13,13 @@ class BrotliRecipe(PythonRecipe):
     hostpython_prerequisites = [
         "setuptools",
         "wheel",
-        "pkgconfig",
-        "setuptools_scm",
         "pip",
     ]
+
     source_subdir = "python"
+
     call_hostpython_via_targetpython = False
+
     install_in_hostpython = False
 
     def build_arch(self, arch):
