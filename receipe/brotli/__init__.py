@@ -8,7 +8,7 @@ class BrotliRecipe(PythonRecipe):
 
     name = "brotli"
 
-    depends = ["setuptools"]
+    depends = ["python3", "setuptools"]
 
     patches = ["patches/setup.patch"]
 
