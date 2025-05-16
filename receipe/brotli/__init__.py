@@ -61,7 +61,7 @@ class BrotliRecipe(CompiledComponentsPythonRecipe):
         info(f"Installing {self.name} into site-packages")
         hostpython = sh.Command(self.hostpython_location)
         installdir = self.ctx.get_python_install_dir(arch.arch)
-        with current_directory(installdir):
+        with current_directory(self.get_build_dir(arch.arch)):
             shprint(
                 hostpython,
                 "setup.py",
