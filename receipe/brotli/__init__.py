@@ -8,16 +8,14 @@ import glob
 
 class BrotliRecipe(CompiledComponentsPythonRecipe):
     version = "1.1.0"
-    url = "https://github.com/google/brotli/archive/refs/tags/v{version}.tar.gz"
-    name = "brotli"
 
-    depends = ["python3"]
-    conflicts = []
+    url = "https://github.com/google/brotli/archive/refs/tags/v{version}.tar.gz"
+
+    name = "brotli"
 
     site_packages_name = "brotli"
 
     def build_compiled_components(self, arch):
-        info(f"Building compiled components in {self.name}")
         env = self.get_recipe_env(arch)
         hostpython = sh.Command(self.hostpython_location)
 
@@ -57,8 +55,6 @@ class BrotliRecipe(CompiledComponentsPythonRecipe):
     def install_python_package(self, arch, name=None, env=None, is_dir=True):
         if env is None:
             env = self.get_recipe_env(arch)
-
-        info(f"Installing {self.name} into site-packages")
         hostpython = sh.Command(self.hostpython_location)
         installdir = self.ctx.get_python_install_dir(arch.arch)
         with current_directory(self.get_build_dir(arch.arch)):

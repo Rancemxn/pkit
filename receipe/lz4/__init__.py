@@ -1,22 +1,16 @@
-from pythonforandroid.recipe import PythonRecipe  # type: ignore
+from pythonforandroid.recipe import CompiledComponentsPythonRecipe  # type: ignore
 
 
-class Lz4Recipe(PythonRecipe):
-    version = "v4.4.4"
-    url = "https://github.com/python-lz4/python-lz4/archive/refs/tags/{version}.zip"
+class LZ4Recipe(CompiledComponentsPythonRecipe):
+    version = "4.4.4"
+
+    url = "https://github.com/python-lz4/python-lz4/archive/refs/tags/v{version}.tar.gz"
 
     name = "lz4"
 
-    depends = ["setuptools"]
-
     call_hostpython_via_targetpython = False
-    install_in_hostpython = False
 
-    def get_recipe_env(self, *args, **kwargs):
-        env = super().get_recipe_env(*args, **kwargs)
-        env["SETUPTOOLS_SCM_PRETEND_VERSION_FOR_LZ4"] = self.version
-        env["PYLZ4_USE_SYSTEM_LZ4"] = "0"
-        return env
+    site_packages_name = "lz4"
 
 
-recipe = Lz4Recipe()
+recipe = LZ4Recipe()
