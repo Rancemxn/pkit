@@ -16,15 +16,12 @@ class BrotliRecipe(CompiledComponentsPythonRecipe):
 
     site_packages_name = "brotli"
 
-    def get_brotli_python_dir(self, arch):
-        return join(self.get_build_dir(arch.arch), "python")
-
     def build_compiled_components(self, arch):
         info(f"Building compiled components in {self.name}")
         env = self.get_recipe_env(arch)
         hostpython = sh.Command(self.hostpython_location)
 
-        with current_directory(self.get_brotli_python_dir(arch)):
+        with current_directory(self.get_build_dir(arch.arch)):
             if self.install_in_hostpython:
                 shprint(hostpython, "setup.py", "clean", "--all", _env=env)
 
@@ -64,7 +61,7 @@ class BrotliRecipe(CompiledComponentsPythonRecipe):
         info(f"Installing {self.name} into site-packages")
         hostpython = sh.Command(self.hostpython_location)
         installdir = self.ctx.get_python_install_dir(arch.arch)
-        with current_directory(self.get_brotli_python_dir(arch)):
+        with current_directory(installdir):
             shprint(
                 hostpython,
                 "setup.py",
