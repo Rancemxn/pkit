@@ -13,7 +13,7 @@ class LZ4Recipe(PyProjectRecipe):
     def get_recipe_env(self, arch, *args, **kwargs):
         env = super().get_recipe_env(arch, *args, **kwargs)
         env["PYLZ4_USE_SYSTEM_LZ4"] = "0"
-
+        env["SETUPTOOLS_SCM_PRETEND_VERSION_FOR_LZ4"] = self.version
         return env
 
 
