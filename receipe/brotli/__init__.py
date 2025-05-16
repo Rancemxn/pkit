@@ -10,10 +10,5 @@ class BrotliRecipe(PyProjectRecipe):
 
     site_packages_name = "brotli"
 
-    def get_recipe_env(self, arch, *args, **kwargs):
-        env = super().get_recipe_env(arch, *args, **kwargs)
-        env["SETUPTOOLS_SCM_PRETEND_VERSION_FOR_BROTLI"] = self.version
-        return env
-
 
 recipe = BrotliRecipe()
