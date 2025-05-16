@@ -831,7 +831,7 @@ def pack_charts(infos: list[dict], rpe: bool):
 def t():
     global pgr_unpack_typetree
     pgr_unpack_typetree = json.load(
-        open("src/phicain/pgr_unpack_typetree.json", "r", encoding="utf-8")
+        open("pgr_unpack_typetree.json", "r", encoding="utf-8")
     )
     fet.fetch(name="./Phigros.apk")
     setApk("./Phigros.apk")
