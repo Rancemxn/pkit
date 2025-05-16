@@ -8,6 +8,8 @@ class LZ4Recipe(CompiledComponentsPythonRecipe):
 
     name = "lz4"
 
+    depends = ["setuptools"]
+
     call_hostpython_via_targetpython = False
 
     site_packages_name = "lz4"
