@@ -15,7 +15,7 @@ version.regex = __version__ = ['"](.*)['"]
 
 version.filename = %(source.dir)s/__init__.py
 
-requirements = Cython==0.29.33,Pillow,kivy,android,ffmpeg_bin,pyjnius,requests,pysmartdl2,urllib3,loguru,vgmstream,plyer,UnityPy==1.22.2,astc-encoder-py,attrs,brotli,etcpak,fsspec,lz4,pyfmodex,texture2ddecoder,liblzma
+requirements = Cython==0.29.33,Pillow,kivy,android,ffmpeg_bin,pyjnius,requests,pysmartdl2,urllib3,loguru,vgmstream,UnityPy==1.22.2,astc-encoder-py,attrs,brotli,etcpak,fsspec,lz4,pyfmodex,texture2ddecoder,liblzma,archspec
 
 orientation = landscape, landscape-reverse
 
