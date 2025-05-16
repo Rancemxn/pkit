@@ -8,13 +8,12 @@ class LZ4Recipe(PyProjectRecipe):
 
     name = "lz4"
 
-    call_hostpython_via_targetpython = False
-
     site_packages_name = "lz4"
 
     def get_recipe_env(self, arch, *args, **kwargs):
         env = super().get_recipe_env(arch, *args, **kwargs)
         env["PYLZ4_USE_SYSTEM_LZ4"] = "0"
+
         return env
 
 

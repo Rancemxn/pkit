@@ -1,8 +1,0 @@
---- a/setup.py	2023-08-29 19:00:29.000000000 +0800
-+++ b/setup.py	2025-05-11 12:10:41.975104600 +0800
-@@ -288,5 +288,4 @@
-     package_dir=PACKAGE_DIR,
-     py_modules=PY_MODULES,
-     ext_modules=EXT_MODULES,
--    test_suite=TEST_SUITE,
-     cmdclass=CMD_CLASS)
