@@ -2,6 +2,8 @@ name: Extract CanvasKit API from .d.ts
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * 1'  # 每周一
 
 jobs:
   extract:
@@ -12,11 +14,14 @@ jobs:
         with:
           node-version: '20'
       - run: npm install canvaskit-wasm
-      - run: npm install typescript
-      # 可选：查看包结构（调试用）
-      - run: ls -R node_modules/canvaskit-wasm
+      - run: npm install ts-morph
       - run: node extract-dts.js
+      - run: |
+          # 可选：将 JSON 转换为 Markdown
+          node json-to-markdown.js canvaskit-api.json > API.md
       - uses: actions/upload-artifact@v4
         with:
           name: canvaskit-api
-          path: canvaskit-api.json
+          path: |
+            canvaskit-api.json
+            API.md
