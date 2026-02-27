@@ -1,34 +1,22 @@
 name: Extract CanvasKit API from .d.ts
 
 on:
-  schedule:
-    # 每周一运行一次，也可以手动触发
-    - cron: '0 0 * * 1'
-  workflow_dispatch: # 允许手动触发
+  workflow_dispatch:
 
 jobs:
   extract:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '20'
-
-      - name: Install canvaskit-wasm
-        run: npm install canvaskit-wasm
-
-      - name: Install TypeScript compiler (for API extraction)
-        run: npm install typescript
-
-      - name: Run extraction script
-        run: node extract-dts.js
-
-      - name: Upload API JSON as artifact
-        uses: actions/upload-artifact@v4
+      - run: npm install canvaskit-wasm
+      - run: npm install typescript
+      # 可选：查看包结构（调试用）
+      - run: ls -R node_modules/canvaskit-wasm
+      - run: node extract-dts.js
+      - uses: actions/upload-artifact@v4
         with:
           name: canvaskit-api
           path: canvaskit-api.json
