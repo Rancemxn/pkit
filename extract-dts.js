@@ -1,140 +1,87 @@
 const fs = require('fs');
 const path = require('path');
-const ts = require('typescript');
+const { Project, SyntaxKind } = require('ts-morph');
 
-// 1. 确定 canvaskit-wasm 包的根目录
-let packageRoot;
-try {
-    // 通过解析包的主入口找到根目录
-    const mainPath = require.resolve('canvaskit-wasm');
-    packageRoot = path.dirname(mainPath);
-    // 如果主入口在 bin/ 下，则根目录是上一级
-    if (packageRoot.endsWith('bin')) {
-        packageRoot = path.dirname(packageRoot);
-    }
-} catch (e) {
-    console.error('Cannot resolve canvaskit-wasm package.');
+// 定位 canvaskit.d.ts 文件
+const packageRoot = path.dirname(require.resolve('canvaskit-wasm'));
+const dtsPath = path.join(packageRoot, 'types', 'index.d.ts');
+if (!fs.existsSync(dtsPath)) {
+    console.error('Cannot find index.d.ts at', dtsPath);
     process.exit(1);
 }
 
-// 2. 可能的 .d.ts 文件位置（按优先级）
-const candidates = [
-    path.join(packageRoot, 'types', 'index.d.ts'),
-    path.join(packageRoot, 'index.d.ts'),
-    path.join(packageRoot, 'canvaskit.d.ts'),
-    path.join(packageRoot, 'bin', 'canvaskit.d.ts')
-];
+// 创建 TypeScript 项目
+const project = new Project({
+    tsConfigFilePath: path.join(packageRoot, 'types', 'tsconfig.json'),
+    skipAddingFilesFromTsConfig: true,
+});
+const sourceFile = project.addSourceFileAtPath(dtsPath);
 
-let dtsPath = null;
-for (const candidate of candidates) {
-    if (fs.existsSync(candidate)) {
-        dtsPath = candidate;
-        break;
-    }
-}
-
-if (!dtsPath) {
-    console.error('Could not find canvaskit.d.ts. Searched:');
-    candidates.forEach(c => console.error(' - ' + c));
-    process.exit(1);
-}
-
-console.log('Found .d.ts at:', dtsPath);
-
-// 3. 读取并解析
-const sourceCode = fs.readFileSync(dtsPath, 'utf-8');
-const sourceFile = ts.createSourceFile(
-    'canvaskit.d.ts',
-    sourceCode,
-    ts.ScriptTarget.Latest,
-    true
-);
-
-// 4. 提取 API（后续代码与之前相同）
+// 存储提取的 API
 const api = {
-    functions: [],
+    functions: [],       // 顶层函数（如 CanvasKitInit）
+    namespaces: {},      // 命名空间下的成员（如 CanvasKit 接口下的方法）
     classes: [],
-    constants: [],
-    enums: {},
+    enums: [],
     interfaces: [],
-    typeAliases: []
+    typeAliases: [],
 };
 
-function visit(node) {
-    // 函数声明
-    if (ts.isFunctionDeclaration(node) && node.name) {
-        api.functions.push(node.name.text);
-    }
-    // 变量声明（常量）
-    else if (ts.isVariableStatement(node)) {
-        node.declarationList.declarations.forEach(decl => {
-            if (ts.isVariableDeclaration(decl) && decl.name && ts.isIdentifier(decl.name)) {
-                const name = decl.name.text;
-                let value = undefined;
-                if (decl.initializer) {
-                    if (ts.isNumericLiteral(decl.initializer)) {
-                        value = Number(decl.initializer.text);
-                    } else if (ts.isStringLiteral(decl.initializer)) {
-                        value = decl.initializer.text;
-                    }
+// 遍历源文件中的所有声明
+sourceFile.getStatements().forEach(statement => {
+    // 处理接口声明（CanvasKit 本身是一个接口）
+    if (statement.getKind() === SyntaxKind.InterfaceDeclaration) {
+        const interfaceName = statement.getName();
+        api.interfaces.push(interfaceName);
+
+        // 如果是 CanvasKit 接口，提取其成员
+        if (interfaceName === 'CanvasKit') {
+            const members = statement.getMembers();
+            const ns = { functions: [], properties: [] };
+            members.forEach(member => {
+                if (member.getKind() === SyntaxKind.MethodSignature) {
+                    ns.functions.push(member.getName());
+                } else if (member.getKind() === SyntaxKind.PropertySignature) {
+                    ns.properties.push(member.getName());
                 }
-                api.constants.push({ name, value });
-            }
-        });
+            });
+            api.namespaces['CanvasKit'] = ns;
+        }
     }
-    // 类声明
-    else if (ts.isClassDeclaration(node) && node.name) {
-        const className = node.name.text;
-        const methods = [];
-        node.members.forEach(member => {
-            if (ts.isMethodDeclaration(member) && member.name) {
-                methods.push(member.name.getText(sourceFile));
-            }
-        });
+    // 处理类型别名
+    else if (statement.getKind() === SyntaxKind.TypeAliasDeclaration) {
+        api.typeAliases.push(statement.getName());
+    }
+    // 处理枚举
+    else if (statement.getKind() === SyntaxKind.EnumDeclaration) {
+        const enumName = statement.getName();
+        const enumMembers = statement.getMembers().map(m => ({
+            name: m.getName(),
+            value: m.getValue(),
+        }));
+        api.enums.push({ name: enumName, members: enumMembers });
+    }
+    // 处理函数声明（顶层，如 CanvasKitInit）
+    else if (statement.getKind() === SyntaxKind.FunctionDeclaration) {
+        api.functions.push(statement.getName());
+    }
+    // 处理类声明（如果有）
+    else if (statement.getKind() === SyntaxKind.ClassDeclaration) {
+        const className = statement.getName();
+        const methods = statement.getMethods().map(m => m.getName());
         api.classes.push({ name: className, methods });
     }
-    // 枚举声明
-    else if (ts.isEnumDeclaration(node) && node.name) {
-        const enumName = node.name.text;
-        const members = {};
-        node.members.forEach(member => {
-            if (member.name) {
-                const memberName = member.name.getText(sourceFile);
-                let value = undefined;
-                if (member.initializer) {
-                    if (ts.isNumericLiteral(member.initializer)) {
-                        value = Number(member.initializer.text);
-                    }
-                }
-                members[memberName] = value;
-            }
-        });
-        api.enums[enumName] = members;
-    }
-    // 接口
-    else if (ts.isInterfaceDeclaration(node) && node.name) {
-        api.interfaces.push(node.name.text);
-    }
-    // 类型别名
-    else if (ts.isTypeAliasDeclaration(node) && node.name) {
-        api.typeAliases.push(node.name.text);
-    }
-
-    ts.forEachChild(node, visit);
-}
-
-visit(sourceFile);
+});
 
 // 排序
 api.functions.sort();
 api.classes.sort((a, b) => a.name.localeCompare(b.name));
-api.classes.forEach(cls => cls.methods.sort());
-api.constants.sort((a, b) => a.name.localeCompare(b.name));
-api.enums = Object.fromEntries(Object.entries(api.enums).sort(([a], [b]) => a.localeCompare(b)));
+api.classes.forEach(c => c.methods.sort());
+api.enums.sort((a, b) => a.name.localeCompare(b.name));
 api.interfaces.sort();
 api.typeAliases.sort();
 
 // 输出 JSON
 const outputPath = path.join(__dirname, 'canvaskit-api.json');
 fs.writeFileSync(outputPath, JSON.stringify(api, null, 2), 'utf-8');
-console.log(`API extracted to ${outputPath}`);
+console.log('API extracted to', outputPath);
